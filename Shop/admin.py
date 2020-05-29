@@ -2,7 +2,7 @@ from django.contrib import admin
 
 from .models import (
 	Shop, ShopPromocode, Grocery, Fruit, Vegetable, FoodPackage,
-	FoodDishes, Slots
+	FoodDishes, Slots, GroceryInKgQuantityPrice, GroceryInNumOfItemsPrice
 )
 
 @admin.register(Shop)
@@ -15,13 +15,24 @@ class ShopAdmin(admin.ModelAdmin):
 class ShopPromocodeAdmin(admin.ModelAdmin):
 	list_display = ('promocode', 'shop', 'discount_percentage', 'valid_date', 'id')
 	search_fields = ('id', 'shop__id', 'shop__name', 'promocode', 'valid_date')
+	list_filter = ('shop', 'valid_date',)
+
+
+class GroceryInKgQuantityPriceTabularInline(admin.TabularInline):
+	model = GroceryInKgQuantityPrice
+	extra = 1
+
+class GroceryInNumOfItemsPriceTabularInline(admin.TabularInline):
+	model = GroceryInNumOfItemsPrice
+	extra = 1
 
 
 @admin.register(Grocery)
 class GroceryAdmin(admin.ModelAdmin):
-	list_display = ('name', 'shop', 'price_per_item', 'price_per_kg',
-		'is_available', 'id')
+	list_display = ('name', 'shop', 'is_available', 'id')
 	search_fields = ('name', 'shop', 'id',)
+	list_filter = ('name', 'shop', 'is_available',)
+	inlines = (GroceryInKgQuantityPriceTabularInline, GroceryInNumOfItemsPriceTabularInline)
 
 
 @admin.register(Fruit)
@@ -29,12 +40,14 @@ class FruitAdmin(admin.ModelAdmin):
 	list_display = ('name', 'shop', 'price_per_dozen', 'price_per_kg',
 		'is_available', 'id')
 	search_fields = ('name', 'shop', 'id',)
+	list_filter = ('name', 'shop', 'is_available',)
 
 
 @admin.register(Vegetable)
 class FruitAdmin(admin.ModelAdmin):
 	list_display = ('name', 'shop', 'price_per_kg', 'is_available', 'id')
 	search_fields = ('name', 'shop', 'id',)
+	list_filter = ('name', 'shop', 'is_available',)
 
 
 class FoodDishesTabularInline(admin.TabularInline):
@@ -48,3 +61,4 @@ class FoodPackageAdmin(admin.ModelAdmin):
 		'is_available', 'id')
 	search_fields = ('name', 'shop', 'id',)
 	inlines = (FoodDishesTabularInline,)
+	list_filter = ('name', 'shop', 'is_available',)

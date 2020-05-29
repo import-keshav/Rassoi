@@ -9,6 +9,8 @@ class DriverAdmin(admin.ModelAdmin):
 	list_display = ('user', 'shop_assigned', 'is_free', 'id')
 	search_fields = ('user__name', 'user__email', 'user__mobile', 'user__id',
 		'shop_assigned', 'is_free', 'id')
+	list_filter = ('shop_assigned', 'is_free')
+
 
 @admin.register(DriverNotification)
 class DriverNotificationAdmin(admin.ModelAdmin):

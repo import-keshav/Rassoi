@@ -34,8 +34,6 @@ class Grocery(models.Model):
     shop = models.ForeignKey(Shop, on_delete=models.CASCADE, related_name="shop_grocery_shop", null=True, blank=True)
     name = models.CharField(max_length=100, null=True, blank=True)
     image = models.FileField(null=True, blank=True, upload_to="")
-    price_per_item = models.FloatField(null=True, blank=True, validators=[MinValueValidator(0)])
-    price_per_kg = models.FloatField(null=True, blank=True, validators=[MinValueValidator(0)])
     is_available = models.BooleanField(default=False, null=True, blank=True)
 
     created = models.DateTimeField(auto_now_add=True, editable=False)
@@ -45,6 +43,34 @@ class Grocery(models.Model):
         verbose_name_plural = 'Groceries'
     def __str__(self):
         return self.name
+
+
+class GroceryInKgQuantityPrice(models.Model):
+    grocery = models.ForeignKey(Grocery, on_delete=models.CASCADE, related_name="shop_grocery_quantity_grocery", null=True, blank=True)
+    amount = models.FloatField(null=True, blank=True, validators=[MinValueValidator(0)])
+    price = models.FloatField(null=True, blank=True, validators=[MinValueValidator(0)])
+
+    created = models.DateTimeField(auto_now_add=True, editable=False)
+    last_updated = models.DateTimeField(auto_now=True, editable=False)
+    class Meta:
+        verbose_name = 'Grocery Item Quantity Price'
+        verbose_name_plural = 'Grocery Item Quantity Price'
+    def __str__(self):
+        return self.grocery.name
+
+
+class GroceryInNumOfItemsPrice(models.Model):
+    grocery = models.ForeignKey(Grocery, on_delete=models.CASCADE, related_name="shop_grocery_items_grocery", null=True, blank=True)
+    num_of_items = models.FloatField(null=True, blank=True, validators=[MinValueValidator(0)])
+    price = models.FloatField(null=True, blank=True, validators=[MinValueValidator(0)])
+
+    created = models.DateTimeField(auto_now_add=True, editable=False)
+    last_updated = models.DateTimeField(auto_now=True, editable=False)
+    class Meta:
+        verbose_name = 'Grocery In Num Of ItemsPrice'
+        verbose_name_plural = 'Grocery In Num Of ItemsPrice'
+    def __str__(self):
+        return self.grocery.name
 
 
 class Fruit(models.Model):
@@ -118,6 +144,8 @@ class ShopPromocode(models.Model):
     shop = models.ForeignKey(Shop, on_delete=models.CASCADE, related_name="shop_shop_promocode_shop", null=True, blank=True)
     discount_percentage = models.FloatField(null=True, blank=True, validators=[MinValueValidator(0)])
     valid_date = models.DateField(null=True, blank=True)
+    maximum_discount_price = models.FloatField(null=True, blank=True, validators=[MinValueValidator(0)])
+    maximum_number_of_usage = models.FloatField(null=True, blank=True, validators=[MinValueValidator(0)])
     # category = models.ManyToManyField(RestraurantDishesCategory)
 
     created = models.DateTimeField(auto_now_add=True, editable=False)
