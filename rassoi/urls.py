@@ -19,6 +19,7 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('shop/', include('Shop.urls')),
+    path('client/', include('Client.urls')),
 ]
 
 admin.site.site_header = "Ras'soi Admin Panel"
