@@ -2,7 +2,8 @@ from django.contrib import admin
 
 from .models import (
 	Shop, ShopPromocode, Grocery, Fruit, Vegetable, FoodPackage,
-	FoodDishes, Slots, GroceryInKgQuantityPrice, GroceryInNumOfItemsPrice
+	FoodDishes, Slots, GroceryInKgQuantityPrice, GroceryInNumOfItemsPrice,
+	GroceryInLitresPrice
 )
 
 @admin.register(Shop)
@@ -26,13 +27,20 @@ class GroceryInNumOfItemsPriceTabularInline(admin.TabularInline):
 	model = GroceryInNumOfItemsPrice
 	extra = 1
 
+class GroceryInLitresPriceTabularInline(admin.TabularInline):
+	model = GroceryInLitresPrice
+	extra = 1
+
 
 @admin.register(Grocery)
 class GroceryAdmin(admin.ModelAdmin):
 	list_display = ('name', 'shop', 'is_available', 'id')
 	search_fields = ('name', 'shop', 'id',)
 	list_filter = ('name', 'shop', 'is_available',)
-	inlines = (GroceryInKgQuantityPriceTabularInline, GroceryInNumOfItemsPriceTabularInline)
+	inlines = (
+		GroceryInKgQuantityPriceTabularInline,
+		GroceryInNumOfItemsPriceTabularInline,
+		GroceryInLitresPriceTabularInline)
 
 
 @admin.register(Fruit)
@@ -62,3 +70,12 @@ class FoodPackageAdmin(admin.ModelAdmin):
 	search_fields = ('name', 'shop', 'id',)
 	inlines = (FoodDishesTabularInline,)
 	list_filter = ('name', 'shop', 'is_available',)
+
+
+@admin.register(Slots)
+class SlotsAdmin(admin.ModelAdmin):
+	list_display = ('shop', 'category', 'start_time', 'end_time',
+		'date', 'id')
+	search_fields = ('shop', 'category', 'start_time', 'end_time',
+		'date', 'id')
+	list_filter = ('shop', 'category')

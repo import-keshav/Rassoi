@@ -73,6 +73,20 @@ class GroceryInNumOfItemsPrice(models.Model):
         return self.grocery.name
 
 
+class GroceryInLitresPrice(models.Model):
+    grocery = models.ForeignKey(Grocery, on_delete=models.CASCADE, related_name="shop_grocery_litres_grocery", null=True, blank=True)
+    litre = models.FloatField(null=True, blank=True, validators=[MinValueValidator(0)])
+    price = models.FloatField(null=True, blank=True, validators=[MinValueValidator(0)])
+
+    created = models.DateTimeField(auto_now_add=True, editable=False)
+    last_updated = models.DateTimeField(auto_now=True, editable=False)
+    class Meta:
+        verbose_name = 'Grocery In Litre Price'
+        verbose_name_plural = 'Grocery In Litre Price'
+    def __str__(self):
+        return self.grocery.name
+
+
 class Fruit(models.Model):
     shop = models.ForeignKey(Shop, on_delete=models.CASCADE, related_name="shop_fruit_shop", null=True, blank=True)
     name = models.CharField(max_length=100, null=True, blank=True)
@@ -169,5 +183,3 @@ class Slots(models.Model):
     class Meta:
         verbose_name = 'Slot'
         verbose_name_plural = 'Slots'
-    def __str__(self):
-        return self.start_time
