@@ -34,7 +34,8 @@ class Grocery(models.Model):
     shop = models.ForeignKey(Shop, on_delete=models.CASCADE, related_name="shop_grocery_shop", null=True, blank=True)
     name = models.CharField(max_length=100, null=True, blank=True)
     image = models.FileField(null=True, blank=True, upload_to="")
-    is_available = models.BooleanField(default=False, null=True, blank=True)
+    is_available = models.BooleanField(default=True, null=True, blank=True)
+    is_approved = models.BooleanField(default=False, null=True, blank=True)
 
     created = models.DateTimeField(auto_now_add=True, editable=False)
     last_updated = models.DateTimeField(auto_now=True, editable=False)

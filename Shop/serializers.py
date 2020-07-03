@@ -42,10 +42,11 @@ class ListGroceriesSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-# class DeleteUpdateGrocerySerializer(serializers.ModelSerializer):
-#         class Meta:
-#         model = shop_models.Grocery
-#         fields = '__all__'
+class CreateGrocerySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = shop_models.Grocery
+        fields = '__all__'
+
 
 class ListFruitsSerializer(serializers.ModelSerializer):
     class Meta:
