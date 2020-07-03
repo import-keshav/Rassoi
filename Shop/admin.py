@@ -34,7 +34,7 @@ class GroceryInLitresPriceTabularInline(admin.TabularInline):
 
 @admin.register(Grocery)
 class GroceryAdmin(admin.ModelAdmin):
-	list_display = ('name', 'shop', 'is_available', 'id')
+	list_display = ('name', 'shop', 'is_available', 'is_approved','id')
 	search_fields = ('name', 'shop', 'id',)
 	list_filter = ('name', 'shop', 'is_available',)
 	inlines = (
@@ -46,14 +46,14 @@ class GroceryAdmin(admin.ModelAdmin):
 @admin.register(Fruit)
 class FruitAdmin(admin.ModelAdmin):
 	list_display = ('name', 'shop', 'price_per_dozen', 'price_per_kg',
-		'is_available', 'id')
+		'is_available', 'is_approved', 'id')
 	search_fields = ('name', 'shop', 'id',)
 	list_filter = ('name', 'shop', 'is_available',)
 
 
 @admin.register(Vegetable)
 class FruitAdmin(admin.ModelAdmin):
-	list_display = ('name', 'shop', 'price_per_kg', 'is_available', 'id')
+	list_display = ('name', 'shop', 'price_per_kg', 'is_available', 'is_approved', 'id')
 	search_fields = ('name', 'shop', 'id',)
 	list_filter = ('name', 'shop', 'is_available',)
 

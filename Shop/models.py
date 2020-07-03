@@ -95,6 +95,7 @@ class Fruit(models.Model):
     price_per_dozen = models.FloatField(null=True, blank=True, validators=[MinValueValidator(0)])
     price_per_kg = models.FloatField(null=True, blank=True, validators=[MinValueValidator(0)])
     is_available = models.BooleanField(default=False, null=True, blank=True)
+    is_approved = models.BooleanField(default=False, null=True, blank=True)
 
     created = models.DateTimeField(auto_now_add=True, editable=False)
     last_updated = models.DateTimeField(auto_now=True, editable=False)
@@ -111,6 +112,7 @@ class Vegetable(models.Model):
     image = models.FileField(null=True, blank=True, upload_to="")
     price_per_kg = models.FloatField(null=True, blank=True, validators=[MinValueValidator(0)])
     is_available = models.BooleanField(default=False, null=True, blank=True)
+    is_approved = models.BooleanField(default=False, null=True, blank=True)
 
     created = models.DateTimeField(auto_now_add=True, editable=False)
     last_updated = models.DateTimeField(auto_now=True, editable=False)
