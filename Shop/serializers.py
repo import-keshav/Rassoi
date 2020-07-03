@@ -54,11 +54,22 @@ class ListFruitsSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class CreateFruitsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = shop_models.Fruit
+        fields = '__all__'
+
+
 class ListVegetableSerializer(serializers.ModelSerializer):
     class Meta:
         model = shop_models.Vegetable
         fields = '__all__'
 
+
+class CreateVegetableSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = shop_models.Vegetable
+        fields = '__all__'
 
 class ListSlotsSerializer(serializers.ModelSerializer):
     class Meta:
