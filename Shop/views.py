@@ -60,7 +60,7 @@ class ListFruits(generics.ListAPIView):
 
     def get_queryset(self):
         shop = shop_models.Shop.objects.filter(pk=self.kwargs['pk']).first()
-        return shop_models.Fruit.objects.filter(shop=shop)
+        return shop_models.Fruit.objects.filter(shop=shop, is_approved=True)
 
 
 class CreateFruit(APIView):
@@ -90,7 +90,7 @@ class ListVegetables(generics.ListAPIView):
 
     def get_queryset(self):
         shop = shop_models.Shop.objects.filter(pk=self.kwargs['pk']).first()
-        return shop_models.Vegetable.objects.filter(shop=shop)
+        return shop_models.Vegetable.objects.filter(shop=shop, is_approved=True)
 
 
 class CreateVegetable(APIView):
