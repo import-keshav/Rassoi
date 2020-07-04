@@ -69,7 +69,6 @@ class CreateFruit(APIView):
         for key in valid_keys:
             if key not in self.request.data:
                 return Response('Include ' + key + ' in data', status=status.HTTP_400_BAD_REQUEST)
-        self.request.data['is_approved'] = False
         serializer_obj = shop_serializer.CreateFruitsSerializer(data=self.request.data)
         if serializer_obj.is_valid():
             serializer_obj.save()
@@ -79,6 +78,8 @@ class CreateFruit(APIView):
 
     def add_obj_in_approval(self, serializer_obj):
         fruit = shop_models.Fruit.objects.filter(pk=serializer_obj.data['id']).first()
+        fruit.is_approved = False
+        fruit.save()
         approval_obj = approval_models.FruitApproval(fruit=fruit, is_approved=False, action='Create')
         approval_obj.save()
 
@@ -98,7 +99,6 @@ class CreateVegetable(APIView):
         for key in valid_keys:
             if key not in self.request.data:
                 return Response('Include ' + key + ' in data', status=status.HTTP_400_BAD_REQUEST)
-        self.request.data['is_approved'] = False
         serializer_obj = shop_serializer.CreateVegetableSerializer(data=self.request.data)
         if serializer_obj.is_valid():
             serializer_obj.save()
@@ -108,6 +108,8 @@ class CreateVegetable(APIView):
 
     def add_obj_in_approval(self, serializer_obj):
         vegetable = shop_models.Vegetable.objects.filter(pk=serializer_obj.data['id']).first()
+        vegetable.is_approved = False
+        vegetable.save()
         approval_obj = approval_models.VegetableApproval(vegetable=vegetable, is_approved=False, action='Create')
         approval_obj.save()
 
