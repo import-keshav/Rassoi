@@ -65,7 +65,7 @@ class ListFruits(generics.ListAPIView):
 
 class CreateFruit(APIView):
     def post(self, request):
-        valid_keys = ['shop', 'name', 'price_per_kg']
+        valid_keys = ['shop', 'name']
         for key in valid_keys:
             if key not in self.request.data:
                 return Response('Include ' + key + ' in data', status=status.HTTP_400_BAD_REQUEST)
@@ -95,7 +95,7 @@ class ListVegetables(generics.ListAPIView):
 
 class CreateVegetable(APIView):
     def post(self, request):
-        valid_keys = ['shop', 'name', 'price_per_kg']
+        valid_keys = ['shop', 'name']
         for key in valid_keys:
             if key not in self.request.data:
                 return Response('Include ' + key + ' in data', status=status.HTTP_400_BAD_REQUEST)
