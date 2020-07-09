@@ -3,7 +3,7 @@ from django.contrib import admin
 from .models import (
 	Shop, ShopPromocode, Grocery, Fruit, Vegetable, FoodPackage,
 	FoodDishes, Slots, GroceryInKgQuantityPrice, GroceryInNumOfItemsPrice,
-	GroceryInLitresPrice
+	GroceryInLitresPrice, FoodMeal, FoodPackageClientSubscription
 )
 
 @admin.register(Shop)
@@ -58,18 +58,29 @@ class FruitAdmin(admin.ModelAdmin):
 	list_filter = ('name', 'shop', 'is_available',)
 
 
+class FoodMealTabularInline(admin.TabularInline):
+	model = FoodMeal
+	extra = 1
+	show_change_link = True
+
 class FoodDishesTabularInline(admin.TabularInline):
 	model = FoodDishes
 	extra = 1
 
-
 @admin.register(FoodPackage)
 class FoodPackageAdmin(admin.ModelAdmin):
-	list_display = ('name', 'shop', 'price_per_meal', 'price_per_month',
+	list_display = ('name', 'shop', 'price_per_week_total', 'price_per_week_type',
 		'is_available', 'id')
 	search_fields = ('name', 'shop', 'id',)
-	inlines = (FoodDishesTabularInline,)
+	inlines = (FoodMealTabularInline,)
 	list_filter = ('name', 'shop', 'is_available',)
+
+@admin.register(FoodMeal)
+class FoodMealAdmin(admin.ModelAdmin):
+	list_display = ('food_type', 'day', 'package', 'image', 'id')
+	search_fields = ('food_type', 'day', 'package__name', 'id')
+	list_filter = ('food_type', 'day')
+	inlines = (FoodDishesTabularInline,)
 
 
 @admin.register(Slots)
@@ -79,3 +90,12 @@ class SlotsAdmin(admin.ModelAdmin):
 	search_fields = ('shop', 'category', 'start_time', 'end_time',
 		'date', 'id')
 	list_filter = ('shop', 'category')
+
+
+@admin.register(FoodPackageClientSubscription)
+class SlotsAdmin(admin.ModelAdmin):
+	list_display = ('client', 'food_package', 'food_types', 'start_date',
+		'end_date', 'id',)
+	search_fields = ('client__user__name', 'client__user__email',
+		'food_package__name', 'id')
+	list_filter = ('food_types',)

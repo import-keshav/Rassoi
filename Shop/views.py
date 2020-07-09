@@ -25,7 +25,6 @@ class CreateGrocery(APIView):
         for key in valid_keys:
             if key not in self.request.data:
                 return Response('Include ' + key + ' in data', status=status.HTTP_400_BAD_REQUEST)
-        self.request.data['is_approved'] = False
         serializer_obj = shop_serializer.CreateGrocerySerializer(data=self.request.data)
         if serializer_obj.is_valid():
             serializer_obj.save()
