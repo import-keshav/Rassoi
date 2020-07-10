@@ -203,7 +203,7 @@ class ShopPromocode(models.Model):
     valid_date = models.DateField(null=True, blank=True)
     maximum_discount_price = models.FloatField(null=True, blank=True, validators=[MinValueValidator(0)])
     maximum_number_of_usage = models.FloatField(null=True, blank=True, validators=[MinValueValidator(0)])
-    # category = models.ManyToManyField(RestraurantDishesCategory)
+    category = models.TextField(choices=ITEMS, null=True, blank=True)
 
     created = models.DateTimeField(auto_now_add=True, editable=False)
     last_updated = models.DateTimeField(auto_now=True, editable=False)

@@ -9,13 +9,14 @@ from .models import (
 
 @admin.register(Shop)
 class ShopAdmin(admin.ModelAdmin):
-	list_display = ('address', 'location_coordinates', 'is_open', 'image', 'id')
+	list_display = ('address', 'location_coordinates', 'is_open', 'image', 'unique_id', 'id')
 	search_fields = ('location_coordinates', 'address', 'id',)
 
 
 @admin.register(ShopPromocode)
 class ShopPromocodeAdmin(admin.ModelAdmin):
-	list_display = ('promocode', 'shop', 'discount_percentage', 'valid_date', 'id')
+	list_display = ('promocode', 'shop', 'discount_percentage', 'valid_date',
+		'maximum_discount_price', 'maximum_number_of_usage', 'category', 'id')
 	search_fields = ('id', 'shop__id', 'shop__name', 'promocode', 'valid_date')
 	list_filter = ('shop', 'valid_date',)
 

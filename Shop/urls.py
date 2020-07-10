@@ -33,4 +33,9 @@ urlpatterns = [
 	path('update-delete-shop-feedback/<int:pk>', views.UpdateDeleteFeedBack.as_view()),
 
 	path('shop-login', views.ShopLogin.as_view()),
+
+	path('get-shop-promocode/<int:pk>', views.ListShopPromocode.as_view()),
+	path('create-promocode', views.CreateShopPromocode.as_view()),
+	path('update-delete-shop-promocode/<int:pk>', views.UpdateDeleteShopPromocode.as_view()),
+
 ]
