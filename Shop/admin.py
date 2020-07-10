@@ -70,7 +70,7 @@ class FoodDishesTabularInline(admin.TabularInline):
 @admin.register(FoodPackage)
 class FoodPackageAdmin(admin.ModelAdmin):
 	list_display = ('name', 'shop', 'price_per_week_total', 'price_per_week_type',
-		'is_available', 'id')
+		'is_available', 'is_approved', 'id')
 	search_fields = ('name', 'shop', 'id',)
 	inlines = (FoodMealTabularInline,)
 	list_filter = ('name', 'shop', 'is_available',)

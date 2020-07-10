@@ -75,3 +75,48 @@ class ListSlotsSerializer(serializers.ModelSerializer):
     class Meta:
         model = shop_models.Slots
         fields = '__all__'
+
+
+class ListFoodDishesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = shop_models.FoodDishes
+        fields = '__all__'
+
+class CreateFoodDishesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = shop_models.FoodDishes
+        fields = '__all__'
+
+
+class ListFoodMealSerializer(serializers.ModelSerializer):
+    dishes = serializers.SerializerMethodField()
+    def get_dishes(self, obj):
+        dishes = shop_models.FoodDishes.objects.filter(meal=obj)
+        return [ListFoodDishesSerializer(dish).data for dish in dishes]
+
+    class Meta:
+        model = shop_models.FoodMeal
+        fields = '__all__'
+
+
+class CreateFoodMealSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = shop_models.FoodMeal
+        fields = '__all__'
+
+
+class GetFoodPackageSerializer(serializers.ModelSerializer):
+    meals = serializers.SerializerMethodField()
+    def get_meals(self, obj):
+        meals = shop_models.FoodMeal.objects.filter(package=obj)
+        return [ListFoodMealSerializer(meal).data for meal in meals]
+
+    class Meta:
+        model = shop_models.FoodPackage
+        fields = '__all__'
+
+
+class CreateFoodPackageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = shop_models.FoodPackage
+        fields = '__all__'

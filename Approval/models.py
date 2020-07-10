@@ -64,3 +64,22 @@ class VegetableApproval(models.Model):
             vegetable.is_approved = True
             vegetable.save()
             super(VegetableApproval, self).delete()
+
+
+class FoodPackageApproval(models.Model):
+    food_package = models.ForeignKey(shop_models.FoodPackage, on_delete=models.CASCADE, related_name="food_package_food_package_approval_food_package", null=True, blank=True)
+    is_approved = models.BooleanField(default=False, null=True, blank=True)
+    action = models.TextField(choices=ACTIONS, null=True, blank=True)
+
+    class Meta:
+        verbose_name = 'Food Package Approval'
+        verbose_name_plural = 'Food Package Approvals'
+    def __str__(self):
+        return self.food_package.name
+    def save(self):
+        super(FoodPackageApproval, self).save()
+        if self.is_approved:
+            food_package = shop_models.FoodPackage.objects.filter(pk=self.food_package.pk).first()
+            food_package.is_approved = True
+            food_package.save()
+            super(FoodPackageApproval, self).delete()

@@ -143,6 +143,7 @@ class FoodPackage(models.Model):
     is_available = models.BooleanField(default=False, null=True, blank=True)
     price_per_week_total = models.FloatField(null=True, blank=True, validators=[MinValueValidator(0)])
     price_per_week_type = models.FloatField(null=True, blank=True, validators=[MinValueValidator(0)])
+    is_approved = models.BooleanField(default=False, null=True, blank=True)
 
     created = models.DateTimeField(auto_now_add=True, editable=False)
     last_updated = models.DateTimeField(auto_now=True, editable=False)
