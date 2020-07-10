@@ -225,6 +225,13 @@ class UpdateDeleteFeedBack(generics.RetrieveUpdateDestroyAPIView):
     queryset = shop_models.ShopFeedBack.objects.all()
 
 
+class ListSpecificShop(generics.ListAPIView):
+    renderer_classes = [JSONRenderer]
+    serializer_class = shop_serializer.ListShop
+
+    def get_queryset(self):
+        return shop_models.Shop.objects.filter(pk=self.kwargs['pk'])
+
 class ShopLogin(APIView):
     def post(self, request):
         try:
