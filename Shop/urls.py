@@ -31,4 +31,6 @@ urlpatterns = [
 	path('get-shop-feedback/<int:pk>', views.ListShopFeedBack.as_view()),
 	path('create-feedback', views.CreateShopFeedBack.as_view()),
 	path('update-delete-shop-feedback/<int:pk>', views.UpdateDeleteFeedBack.as_view()),
+
+	path('shop-login', views.ShopLogin.as_view()),
 ]

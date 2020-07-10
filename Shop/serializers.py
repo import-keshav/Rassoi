@@ -4,6 +4,12 @@ from rest_framework import serializers
 from . import models as shop_models
 
 
+class ListShop(serializers.ModelSerializer):
+    class Meta:
+        model = shop_models.Shop
+        fields = '__all__'
+
+
 class GetGroceryInNumOfItemsPriceSerializer(serializers.ModelSerializer):
     class Meta:
         model = shop_models.GroceryInNumOfItemsPrice

@@ -1,3 +1,4 @@
+import hashlib, binascii, os, random
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.response import Response
 from rest_framework.renderers import JSONRenderer
@@ -222,3 +223,29 @@ class UpdateDeleteFeedBack(generics.RetrieveUpdateDestroyAPIView):
     renderer_classes = [JSONRenderer]
     serializer_class = shop_serializer.ListShopFeedBackSerializer
     queryset = shop_models.ShopFeedBack.objects.all()
+
+
+class ShopLogin(APIView):
+    def post(self, request):
+        try:
+            shop = shop_models.Shop.objects.filter(
+                unique_id=self.request.data['unique_id']).first()
+            if not shop:
+                return Response({"message": "Invalid Shop unique Id",}, status=status.HTTP_400_BAD_REQUEST)
+            if self.verify_password(shop.password, self.request.data['password']):
+                shop_obj = shop_serializer.ListShop(shop)
+                return Response({'message': 'Login Succesfully', "shop": shop_obj.data}, status=status.HTTP_200_OK)
+            return Response({'message': 'Invalid password'}, status=status.HTTP_400_BAD_REQUEST)
+        except:
+            return Response({"message": "unique_id is missing"}, status=status.HTTP_400_BAD_REQUEST)
+
+    def verify_password(self, stored_password, provided_password):
+        """Verify a stored password against one provided by user"""
+        salt = stored_password[:64]
+        stored_password = stored_password[64:]
+        pwdhash = hashlib.pbkdf2_hmac('sha512', 
+                                      provided_password.encode('utf-8'), 
+                                      salt.encode('ascii'), 
+                                      100000)
+        pwdhash = binascii.hexlify(pwdhash).decode('ascii')
+        return pwdhash == stored_password
