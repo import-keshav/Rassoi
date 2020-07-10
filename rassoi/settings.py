@@ -43,7 +43,6 @@ INSTALLED_APPS = [
     'Client',
     'Driver',
     'Order',
-    'Review',
     'Shop',
     'User'
 ]
