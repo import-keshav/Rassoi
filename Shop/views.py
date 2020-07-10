@@ -202,3 +202,23 @@ class CreateFoodMeal(generics.CreateAPIView):
 class CreateFoodDish(generics.CreateAPIView):
     renderer_classes = [JSONRenderer]
     serializer_class = shop_serializer.CreateFoodDishesSerializer
+
+
+class CreateShopFeedBack(generics.CreateAPIView):
+    renderer_classes = [JSONRenderer]
+    serializer_class = shop_serializer.CreateShopFeedBackSerializer
+
+
+class ListShopFeedBack(generics.ListAPIView):
+    renderer_classes = [JSONRenderer]
+    serializer_class = shop_serializer.ListShopFeedBackSerializer
+
+    def get_queryset(self):
+        shop = shop_models.Shop.objects.filter(pk=self.kwargs['pk']).first()
+        return shop_models.ShopFeedBack.objects.filter(shop=shop)
+
+
+class UpdateDeleteFeedBack(generics.RetrieveUpdateDestroyAPIView):
+    renderer_classes = [JSONRenderer]
+    serializer_class = shop_serializer.ListShopFeedBackSerializer
+    queryset = shop_models.ShopFeedBack.objects.all()
