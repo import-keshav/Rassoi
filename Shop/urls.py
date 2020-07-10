@@ -20,6 +20,7 @@ urlpatterns = [
 
 	path('get-shop-slots/<int:pk>', views.ListSlots.as_view()),
 	path('create-shop-slot', views.CreateSlot.as_view()),
+	path('update-delete-shop-slot/<int:pk>', views.UpdateDeleteSlot.as_view()),
 
 	path('get-shop-packages/<int:pk>', views.ListFoodPackages.as_view()),
 	path('get-specific-shop-package/<int:pk>', views.ListSpecificFoodPackage.as_view()),

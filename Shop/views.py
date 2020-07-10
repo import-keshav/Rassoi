@@ -150,6 +150,12 @@ class CreateSlot(generics.CreateAPIView):
     serializer_class = shop_serializer.CreateSlotSerializer
 
 
+class UpdateDeleteSlot(generics.RetrieveUpdateDestroyAPIView):
+    renderer_classes = [JSONRenderer]
+    serializer_class = shop_serializer.UpdateDeleteSlotsSerializer
+    queryset = shop_models.Slots.objects.all()
+
+
 class ListFoodPackages(generics.ListAPIView):
     renderer_classes = [JSONRenderer]
     serializer_class = shop_serializer.GetFoodPackageSerializer

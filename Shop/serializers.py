@@ -106,6 +106,11 @@ class CreateSlotSerializer(serializers.ModelSerializer):
                 raise forms.ValidationError('Include ' + key + ' in data')
         return data
 
+class UpdateDeleteSlotsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = shop_models.Slots
+        fields = '__all__'
+
 
 class ListFoodDishesSerializer(serializers.ModelSerializer):
     class Meta:
