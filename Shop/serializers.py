@@ -46,6 +46,12 @@ class CreateGrocerySerializer(serializers.ModelSerializer):
     class Meta:
         model = shop_models.Grocery
         fields = '__all__'
+    def validate(self, data):
+        must_keys = ['shop', 'name']
+        for key in must_keys:
+            if not key in data:
+                raise forms.ValidationError('Include ' + key + ' in data')
+        return data
 
 
 class ListFruitsSerializer(serializers.ModelSerializer):
@@ -58,7 +64,12 @@ class CreateFruitsSerializer(serializers.ModelSerializer):
     class Meta:
         model = shop_models.Fruit
         fields = '__all__'
-
+    def validate(self, data):
+        must_keys = ['shop', 'name', 'price_per_kg', 'price_per_dozen']
+        for key in must_keys:
+            if not key in data:
+                raise forms.ValidationError('Include ' + key + ' in data')
+        return data
 
 class ListVegetableSerializer(serializers.ModelSerializer):
     class Meta:
@@ -70,11 +81,30 @@ class CreateVegetableSerializer(serializers.ModelSerializer):
     class Meta:
         model = shop_models.Vegetable
         fields = '__all__'
+    def validate(self, data):
+        must_keys = ['shop', 'name', 'price_per_kg']
+        for key in must_keys:
+            if not key in data:
+                raise forms.ValidationError('Include ' + key + ' in data')
+        return data
+
 
 class ListSlotsSerializer(serializers.ModelSerializer):
     class Meta:
         model = shop_models.Slots
         fields = '__all__'
+
+
+class CreateSlotSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = shop_models.Slots
+        fields = '__all__'
+    def validate(self, data):
+        must_keys = ['shop', 'category', 'start_time', 'end_time', 'date']
+        for key in must_keys:
+            if not key in data:
+                raise forms.ValidationError('Include ' + key + ' in data')
+        return data
 
 
 class ListFoodDishesSerializer(serializers.ModelSerializer):
@@ -86,6 +116,12 @@ class CreateFoodDishesSerializer(serializers.ModelSerializer):
     class Meta:
         model = shop_models.FoodDishes
         fields = '__all__'
+    def validate(self, data):
+        must_keys = ['meal', 'name', 'number_of_items']
+        for key in must_keys:
+            if not key in data:
+                raise forms.ValidationError('Include ' + key + ' in data')
+        return data
 
 
 class ListFoodMealSerializer(serializers.ModelSerializer):
@@ -103,7 +139,12 @@ class CreateFoodMealSerializer(serializers.ModelSerializer):
     class Meta:
         model = shop_models.FoodMeal
         fields = '__all__'
-
+    def validate(self, data):
+        must_keys = ['package', 'food_type', 'day']
+        for key in must_keys:
+            if not key in data:
+                raise forms.ValidationError('Include ' + key + ' in data')
+        return data
 
 class GetFoodPackageSerializer(serializers.ModelSerializer):
     meals = serializers.SerializerMethodField()
@@ -120,3 +161,9 @@ class CreateFoodPackageSerializer(serializers.ModelSerializer):
     class Meta:
         model = shop_models.FoodPackage
         fields = '__all__'
+    def validate(self, data):
+        must_keys = ['shop', 'name', 'price_per_week_total', 'price_per_week_type']
+        for key in must_keys:
+            if not key in data:
+                raise forms.ValidationError('Include ' + key + ' in data')
+        return data

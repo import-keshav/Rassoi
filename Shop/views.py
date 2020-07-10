@@ -145,6 +145,11 @@ class ListSlots(generics.ListAPIView):
         return shop_models.Slots.objects.filter(shop=shop)
 
 
+class CreateSlot(generics.CreateAPIView):
+    renderer_classes = [JSONRenderer]
+    serializer_class = shop_serializer.CreateSlotSerializer
+
+
 class ListFoodPackages(generics.ListAPIView):
     renderer_classes = [JSONRenderer]
     serializer_class = shop_serializer.GetFoodPackageSerializer

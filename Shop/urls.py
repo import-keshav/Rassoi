@@ -18,7 +18,8 @@ urlpatterns = [
 	path('get-specific-shop-vegetable/<int:pk>', views.ListSpecificVegetable.as_view()),
 	path('create-vegetable', views.CreateVegetable.as_view()),
 
-	path('get-shop-slots/<int:pk>', views.ListVegetables.as_view()),
+	path('get-shop-slots/<int:pk>', views.ListSlots.as_view()),
+	path('create-shop-slot', views.CreateSlot.as_view()),
 
 	path('get-shop-packages/<int:pk>', views.ListFoodPackages.as_view()),
 	path('get-specific-shop-package/<int:pk>', views.ListSpecificFoodPackage.as_view()),
