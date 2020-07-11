@@ -173,36 +173,38 @@ class ListSpecificFoodPackage(generics.ListAPIView):
     def get_queryset(self):
         return shop_models.FoodPackage.objects.filter(pk=self.kwargs['pk'])
 
-
-class CreateFoodPackage(APIView):
-    def post(self, request):
-        valid_keys = ['shop', 'name']
-        for key in valid_keys:
-            if key not in self.request.data:
-                return Response('Include ' + key + ' in data', status=status.HTTP_400_BAD_REQUEST)
-        serializer_obj = shop_serializer.CreateFoodPackageSerializer(data=self.request.data)
-        if serializer_obj.is_valid():
-            serializer_obj.save()
-            self.add_obj_in_approval(serializer_obj)
-            return Response({'message': 'Food Package created succesfully', 'id':serializer_obj.data['id']}, status=status.HTTP_200_OK)
-        return Response(serializer_obj.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def add_obj_in_approval(self, serializer_obj):
-        food_package = shop_models.FoodPackage.objects.filter(pk=serializer_obj.data['id']).first()
-        food_package.is_approved = False
-        food_package.save()
-        approval_obj = approval_models.FoodPackageApproval(food_package=food_package, is_approved=False, action='Create')
-        approval_obj.save()
-
-
-class CreateFoodMeal(generics.CreateAPIView):
+class CreateFoodPackage(generics.CreateAPIView):
     renderer_classes = [JSONRenderer]
-    serializer_class = shop_serializer.CreateFoodMealSerializer
+    serializer_class = shop_serializer.CreateFoodPackageSerializer
+# class CreateFoodPackage(APIView):
+#     def post(self, request):
+#         valid_keys = ['shop', 'name']
+#         for key in valid_keys:
+#             if key not in self.request.data:
+#                 return Response('Include ' + key + ' in data', status=status.HTTP_400_BAD_REQUEST)
+#         serializer_obj = shop_serializer.CreateFoodPackageSerializer(data=self.request.data)
+#         if serializer_obj.is_valid():
+#             serializer_obj.save()
+#             self.add_obj_in_approval(serializer_obj)
+#             return Response({'message': 'Food Package created succesfully', 'id':serializer_obj.data['id']}, status=status.HTTP_200_OK)
+#         return Response(serializer_obj.errors, status=status.HTTP_400_BAD_REQUEST)
+
+#     def add_obj_in_approval(self, serializer_obj):
+#         food_package = shop_models.FoodPackage.objects.filter(pk=serializer_obj.data['id']).first()
+#         food_package.is_approved = False
+#         food_package.save()
+#         approval_obj = approval_models.FoodPackageApproval(food_package=food_package, is_approved=False, action='Create')
+#         approval_obj.save()
 
 
-class CreateFoodDish(generics.CreateAPIView):
-    renderer_classes = [JSONRenderer]
-    serializer_class = shop_serializer.CreateFoodDishesSerializer
+# class CreateFoodMeal(generics.CreateAPIView):
+#     renderer_classes = [JSONRenderer]
+#     serializer_class = shop_serializer.CreateFoodMealSerializer
+
+
+# class CreateFoodDish(generics.CreateAPIView):
+#     renderer_classes = [JSONRenderer]
+#     serializer_class = shop_serializer.CreateFoodDishesSerializer
 
 
 class CreateShopFeedBack(generics.CreateAPIView):
