@@ -27,7 +27,7 @@ urlpatterns = [
 
 	path('get-shop-packages/<int:pk>', views.ListFoodPackages.as_view()),
 	path('get-specific-shop-package/<int:pk>', views.ListSpecificFoodPackage.as_view()),
-	# path('create-food-package', views.CreateFoodPackage.as_view()),
+	path('create-food-package', views.CreateFoodPackage.as_view()),
 	# path('create-food-meal', views.CreateFoodMeal.as_view()),
 	# path('create-food-dish', views.CreateFoodDish.as_view()),
 
