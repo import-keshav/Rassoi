@@ -74,13 +74,14 @@ class FoodPackageAdmin(admin.ModelAdmin):
 	list_display = ('name', 'shop', 'price_per_week_total', 'price_per_week_type',
 		'is_available', 'is_approved', 'id')
 	search_fields = ('name', 'shop', 'id',)
-	inlines = (FoodMealTabularInline,)
+	# inlines = (FoodMealTabularInline,)
 	list_filter = ('name', 'shop', 'is_available',)
+
 
 @admin.register(FoodMeal)
 class FoodMealAdmin(admin.ModelAdmin):
-	list_display = ('food_type', 'day', 'package', 'image', 'id')
-	search_fields = ('food_type', 'day', 'package__name', 'id')
+	list_display = ('name', 'food_type', 'day', 'image', 'id')
+	search_fields = ('name', 'food_type', 'day', 'id')
 	list_filter = ('food_type', 'day')
 	inlines = (FoodDishesTabularInline,)
 

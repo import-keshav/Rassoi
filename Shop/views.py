@@ -197,14 +197,42 @@ class CreateFoodPackage(generics.CreateAPIView):
 #         approval_obj.save()
 
 
-# class CreateFoodMeal(generics.CreateAPIView):
-#     renderer_classes = [JSONRenderer]
-#     serializer_class = shop_serializer.CreateFoodMealSerializer
+class CreateFoodMeal(generics.CreateAPIView):
+    renderer_classes = [JSONRenderer]
+    serializer_class = shop_serializer.CreateFoodMealSerializer
 
 
-# class CreateFoodDish(generics.CreateAPIView):
-#     renderer_classes = [JSONRenderer]
-#     serializer_class = shop_serializer.CreateFoodDishesSerializer
+class ListFoodMeal(generics.ListAPIView):
+    renderer_classes = [JSONRenderer]
+    serializer_class = shop_serializer.ListFoodMealSerializer
+
+    def get_queryset(self):
+        shop = shop_models.Shop.objects.filter(pk=self.kwargs['pk']).first()
+        return shop_models.FoodMeal.objects.filter(shop=shop, is_approved=True)
+
+class CreateFoodMeal(APIView):
+    def post(self, request):
+        valid_keys = ['shop', 'name', 'food_type', 'day']
+        for key in valid_keys:
+            if key not in self.request.data:
+                return Response('Include ' + key + ' in data', status=status.HTTP_400_BAD_REQUEST)
+        serializer_obj = shop_serializer.CreateFoodMealSerializer(data=self.request.data)
+        if serializer_obj.is_valid():
+            serializer_obj.save()
+            self.add_obj_in_approval(serializer_obj)
+            return Response({'message': 'Food Meal created succesfully', 'id':serializer_obj.data['id']}, status=status.HTTP_200_OK)
+        return Response(serializer_obj.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def add_obj_in_approval(self, serializer_obj):
+        meal = shop_models.FoodMeal.objects.filter(pk=serializer_obj.data['id']).first()
+        meal.is_approved = False
+        meal.save()
+        approval_obj = approval_models.FoodMealApproval(meal=meal, is_approved=False, action='Create')
+        approval_obj.save()
+
+class CreateFoodDish(generics.CreateAPIView):
+    renderer_classes = [JSONRenderer]
+    serializer_class = shop_serializer.CreateFoodDishesSerializer
 
 
 class CreateShopFeedBack(generics.CreateAPIView):

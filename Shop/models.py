@@ -170,16 +170,22 @@ class FoodPackage(models.Model):
 
 
 class FoodMeal(models.Model):
-    package = models.ForeignKey(FoodPackage, on_delete=models.CASCADE, related_name="shop_food_meal_package", null=True, blank=True)
+    shop = models.ForeignKey(Shop, on_delete=models.CASCADE, related_name="shop_food_meal_shop", null=True, blank=True)
+    name = models.CharField(max_length=100, null=True, blank=True)
     food_type = models.TextField(choices=FOOD_TYPE, null=True, blank=True)
     image = models.FileField(null=True, blank=True, upload_to="")
     day =  models.TextField(choices=DAYS, null=True, blank=True)
+    is_approved = models.BooleanField(default=False, null=True, blank=True)
+    price = models.FloatField(null=True, blank=True, validators=[MinValueValidator(0)])
+
 
     created = models.DateTimeField(auto_now_add=True, editable=False)
     last_updated = models.DateTimeField(auto_now=True, editable=False)
     class Meta:
         verbose_name = 'Food Meal'
         verbose_name_plural = 'Food Meals'
+    def __str__(self):
+        return self.name
 
 
 class FoodDishes(models.Model):
@@ -192,8 +198,6 @@ class FoodDishes(models.Model):
     class Meta:
         verbose_name = 'Food Dishe'
         verbose_name_plural = 'Food Dishes'
-    def __str__(self):
-        return self.name
 
 
 class ShopPromocode(models.Model):

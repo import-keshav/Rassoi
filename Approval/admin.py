@@ -4,12 +4,13 @@ from .models import (
 	GroceryApproval,
 	FruitApproval,
 	VegetableApproval,
-	FoodPackageApproval
+	FoodPackageApproval,
+	FoodMealApproval
 )
 
 
 @admin.register(GroceryApproval)
-class ShopAdmin(admin.ModelAdmin):
+class GroceryApprovalAdmin(admin.ModelAdmin):
 	list_display = ('grocery', 'get_shop_name', 'is_approved', 'action', 'id')
 	search_fields = ('id',)
 	def get_shop_name(self, obj):
@@ -18,7 +19,7 @@ class ShopAdmin(admin.ModelAdmin):
 
 
 @admin.register(FruitApproval)
-class ShopAdmin(admin.ModelAdmin):
+class FruitApprovalAdmin(admin.ModelAdmin):
 	list_display = ('fruit', 'get_shop_name', 'is_approved', 'action', 'id')
 	search_fields = ('id',)
 	def get_shop_name(self, obj):
@@ -27,7 +28,7 @@ class ShopAdmin(admin.ModelAdmin):
 
 
 @admin.register(VegetableApproval)
-class ShopAdmin(admin.ModelAdmin):
+class VegetableApprovalAdmin(admin.ModelAdmin):
 	list_display = ('vegetable', 'get_shop_name', 'is_approved', 'action', 'id')
 	search_fields = ('id',)
 	def get_shop_name(self, obj):
@@ -36,9 +37,18 @@ class ShopAdmin(admin.ModelAdmin):
 
 
 @admin.register(FoodPackageApproval)
-class ShopAdmin(admin.ModelAdmin):
+class FoodPackageApprovalAdmin(admin.ModelAdmin):
 	list_display = ('food_package', 'get_shop_name', 'is_approved', 'action', 'id')
 	search_fields = ('id',)
 	def get_shop_name(self, obj):
 		return obj.food_package.shop
+	get_shop_name.short_description = 'Shop Name'
+
+
+@admin.register(FoodMealApproval)
+class FoodMealApprovalAdmin(admin.ModelAdmin):
+	list_display = ('meal', 'get_shop_name', 'is_approved', 'action', 'id')
+	search_fields = ('id',)
+	def get_shop_name(self, obj):
+		return obj
 	get_shop_name.short_description = 'Shop Name'
