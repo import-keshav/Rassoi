@@ -1,8 +1,6 @@
 from django.contrib import admin
 
-from .models import (
-	Client, ClientNotification
-)
+from .models import *
 
 @admin.register(Client)
 class ClientAdmin(admin.ModelAdmin):
@@ -17,3 +15,17 @@ class ClientNotificationAdmin(admin.ModelAdmin):
 	search_fields = (
 		'client__user__name', 'client__user__email', 'client__user__mobile', 'client__id',
 		'time', 'notification_text', 'id')
+
+
+@admin.register(ShopFeedBack)
+class ShopFeedBackAdmin(admin.ModelAdmin):
+	list_display = ('client', 'comment', 'number_of_stars', 'shop', 'id',)
+	search_fields = ('client__user__name', 'client__user__email')
+	list_filter = ('number_of_stars',)
+
+
+@admin.register(ClientFruitCart)
+class ClientFruitCartAdmin(admin.ModelAdmin):
+	list_display = ('client', 'shop', 'fruit', 'num_of_items', 'id',)
+	search_fields = ('client__user__name', 'client__user__email')
+	list_filter = ('shop',)

@@ -3,8 +3,7 @@ from django.contrib import admin
 from .models import (
 	Shop, ShopPromocode, Grocery, Fruit, Vegetable, FoodPackage,
 	FoodDishes, Slots, GroceryInKgQuantityPrice, GroceryInNumOfItemsPrice,
-	GroceryInLitresPrice, FoodMeal, FoodPackageClientSubscription,
-	ShopFeedBack
+	GroceryInLitresPrice, FoodMeal
 )
 
 @admin.register(Shop)
@@ -95,17 +94,10 @@ class SlotsAdmin(admin.ModelAdmin):
 	list_filter = ('shop', 'category')
 
 
-@admin.register(FoodPackageClientSubscription)
-class SlotsAdmin(admin.ModelAdmin):
-	list_display = ('client', 'food_package', 'food_types', 'start_date',
-		'end_date', 'id',)
-	search_fields = ('client__user__name', 'client__user__email',
-		'food_package__name', 'id')
-	list_filter = ('food_types',)
-
-
-@admin.register(ShopFeedBack)
-class ShopFeedBackAdmin(admin.ModelAdmin):
-	list_display = ('client', 'comment', 'number_of_stars', 'shop', 'id',)
-	search_fields = ('client__user__name', 'client__user__email')
-	list_filter = ('number_of_stars',)
+# @admin.register(FoodPackageClientSubscription)
+# class SlotsAdmin(admin.ModelAdmin):
+# 	list_display = ('client', 'food_package', 'food_types', 'start_date',
+# 		'end_date', 'id',)
+# 	search_fields = ('client__user__name', 'client__user__email',
+# 		'food_package__name', 'id')
+# 	list_filter = ('food_types',)

@@ -34,10 +34,6 @@ urlpatterns = [
 	path('create-food-meal', views.CreateFoodMeal.as_view()),
 	path('create-food-dish', views.CreateFoodDish.as_view()),
 
-	path('get-shop-feedback/<int:pk>', views.ListShopFeedBack.as_view()),
-	path('create-feedback', views.CreateShopFeedBack.as_view()),
-	path('update-delete-shop-feedback/<int:pk>', views.UpdateDeleteFeedBack.as_view()),
-
 	path('get-shop-promocode/<int:pk>', views.ListShopPromocode.as_view()),
 	path('create-promocode', views.CreateShopPromocode.as_view()),
 	path('update-delete-shop-promocode/<int:pk>', views.UpdateDeleteShopPromocode.as_view()),

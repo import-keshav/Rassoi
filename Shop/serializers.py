@@ -181,24 +181,6 @@ class CreateFoodPackageSerializer(serializers.ModelSerializer):
         return data
 
 
-class CreateShopFeedBackSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = shop_models.ShopFeedBack
-        fields = '__all__'
-    def validate(self, data):
-        must_keys = ['shop', 'client', 'comment', 'number_of_stars']
-        for key in must_keys:
-            if not key in data:
-                raise forms.ValidationError('Include ' + key + ' in data')
-        return data
-
-
-class ListShopFeedBackSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = shop_models.ShopFeedBack
-        fields = '__all__'
-
-
 class CreateShopPromocodeSerializer(serializers.ModelSerializer):
     class Meta:
         model = shop_models.ShopPromocode

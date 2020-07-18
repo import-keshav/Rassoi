@@ -2,7 +2,6 @@ import hashlib, binascii, os, random
 from django.db import models
 from django.core.validators import MinValueValidator
 
-from Client import models as client_models
 
 ITEMS = (
     ('Grocery', 'Grocery'),
@@ -231,36 +230,3 @@ class Slots(models.Model):
         verbose_name = 'Slot'
         verbose_name_plural = 'Slots'
 
-
-class FoodPackageClientSubscription(models.Model):
-    client = models.ForeignKey(client_models.Client, on_delete=models.CASCADE, related_name="shop_food_package_client_subscription_client", null=True, blank=True)
-    food_package = models.ForeignKey(FoodPackage, on_delete=models.CASCADE, related_name="shop_food_package_client_subscription_food_subscription", null=True, blank=True)
-    food_types = models.CharField(max_length=100, null=True, blank=True)
-    start_date = models.DateField(null=True, blank=True)
-    end_date = models.DateField(null=True, blank=True)
-
-
-    created = models.DateTimeField(auto_now_add=True, editable=False)
-    last_updated = models.DateTimeField(auto_now=True, editable=False)
-    class Meta:
-        verbose_name = 'Food Package Client Subscription'
-        verbose_name_plural = 'Food Package Client Subscriptions'
-
-    def set_food_types(self, x):
-        self.food_types = json.dumps(x)
-
-    def get_food_types(self):
-        return json.loads(self.food_types)
-
-
-class ShopFeedBack(models.Model):
-    shop = models.ForeignKey(Shop, on_delete=models.CASCADE, related_name="shop_shop_feedback_shop", null=True, blank=True)
-    client = models.ForeignKey(client_models.Client, on_delete=models.CASCADE, related_name="shop_shop_feedback_client", null=True, blank=True)
-    comment = models.TextField(null=True, blank=True)
-    number_of_stars = models.FloatField(null=True, blank=True, validators=[MinValueValidator(0)])
-
-    created = models.DateTimeField(auto_now_add=True, editable=False)
-    last_updated = models.DateTimeField(auto_now=True, editable=False)
-    class Meta:
-        verbose_name = 'Shop FeedBack'
-        verbose_name_plural = 'Shop FeedBacks'

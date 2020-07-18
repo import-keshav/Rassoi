@@ -4,6 +4,7 @@ from rest_framework import serializers
 from . import models as client_models
 
 from User import serializers as user_serializer
+from Shop import serializers as shop_serializer
 
 class GetClientInfoSerializer(serializers.ModelSerializer):
     user = user_serializer.GetUserInfoSerializer()
@@ -15,4 +16,48 @@ class GetClientInfoSerializer(serializers.ModelSerializer):
 class GetClientNotificationSerializer(serializers.ModelSerializer):
     class Meta:
         model = client_models.ClientNotification
+        fields = '__all__'
+
+
+class CreateShopFeedBackSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = client_models.ShopFeedBack
+        fields = '__all__'
+    def validate(self, data):
+        must_keys = ['shop', 'client', 'comment', 'number_of_stars']
+        for key in must_keys:
+            if not key in data:
+                raise forms.ValidationError('Include ' + key + ' in data')
+        return data
+
+
+class ListShopFeedBackSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = client_models.ShopFeedBack
+        fields = '__all__'
+
+
+class CreateClientFruitCartSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = client_models.ClientFruitCart
+        fields = '__all__'
+    def validate(self, data):
+        must_keys = ['client', 'shop', 'fruit', 'num_of_items']
+        for key in must_keys:
+            if not key in data:
+                raise forms.ValidationError('Include ' + key + ' in data')
+        return data
+
+
+class ListClientFruitCartSerializer(serializers.ModelSerializer):
+    fruit = shop_serializer.ListFruitsSerializer()
+    client = GetClientInfoSerializer()
+    class Meta:
+        model = client_models.ClientFruitCart
+        fields = '__all__'
+
+
+class UpdateDeleteClientFruitCartSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = client_models.ClientFruitCart
         fields = '__all__'
