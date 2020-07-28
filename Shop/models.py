@@ -10,6 +10,20 @@ ITEMS = (
     ('Food', 'Food')
 )
 
+
+PRODUCT_CATEGORY = (
+    ('Grocery', 'Grocery'),
+    ('Fruit', 'Fruit'),
+    ('Vegetable', 'Vegetable'),
+    ('Food', 'Food')
+)
+
+PRICES_TYPE = (
+    ('KG', 'KG'),
+    ('Lts', 'Lts'),
+    ('No', 'No'),
+)
+
 FOOD_TYPE = (
     ('Breakfast', 'Breakfast'),
     ('Lunch', 'Lunch'),
@@ -72,44 +86,17 @@ class Grocery(models.Model):
         return self.name
 
 
-class GroceryInKgQuantityPrice(models.Model):
-    grocery = models.ForeignKey(Grocery, on_delete=models.CASCADE, related_name="shop_grocery_quantity_grocery", null=True, blank=True)
+class GroceryPrice(models.Model):
+    grocery = models.ForeignKey(Grocery, on_delete=models.CASCADE, related_name="shop_grocery_price_grocery", null=True, blank=True)
+    price = models.FloatField(null=True, blank=True, validators=[MinValueValidator(0)])
     amount = models.FloatField(null=True, blank=True, validators=[MinValueValidator(0)])
-    price = models.FloatField(null=True, blank=True, validators=[MinValueValidator(0)])
+    price_type = models.TextField(choices=PRICES_TYPE, null=True, blank=True)
 
     created = models.DateTimeField(auto_now_add=True, editable=False)
     last_updated = models.DateTimeField(auto_now=True, editable=False)
     class Meta:
-        verbose_name = 'Grocery Item Quantity Price'
-        verbose_name_plural = 'Grocery Item Quantity Price'
-    def __str__(self):
-        return self.grocery.name
-
-
-class GroceryInNumOfItemsPrice(models.Model):
-    grocery = models.ForeignKey(Grocery, on_delete=models.CASCADE, related_name="shop_grocery_items_grocery", null=True, blank=True)
-    num_of_items = models.FloatField(null=True, blank=True, validators=[MinValueValidator(0)])
-    price = models.FloatField(null=True, blank=True, validators=[MinValueValidator(0)])
-
-    created = models.DateTimeField(auto_now_add=True, editable=False)
-    last_updated = models.DateTimeField(auto_now=True, editable=False)
-    class Meta:
-        verbose_name = 'Grocery In Num Of ItemsPrice'
-        verbose_name_plural = 'Grocery In Num Of ItemsPrice'
-    def __str__(self):
-        return self.grocery.name
-
-
-class GroceryInLitresPrice(models.Model):
-    grocery = models.ForeignKey(Grocery, on_delete=models.CASCADE, related_name="shop_grocery_litres_grocery", null=True, blank=True)
-    litre = models.FloatField(null=True, blank=True, validators=[MinValueValidator(0)])
-    price = models.FloatField(null=True, blank=True, validators=[MinValueValidator(0)])
-
-    created = models.DateTimeField(auto_now_add=True, editable=False)
-    last_updated = models.DateTimeField(auto_now=True, editable=False)
-    class Meta:
-        verbose_name = 'Grocery In Litre Price'
-        verbose_name_plural = 'Grocery In Litre Price'
+        verbose_name = 'Grocery Price'
+        verbose_name_plural = 'Grocery Price'
     def __str__(self):
         return self.grocery.name
 

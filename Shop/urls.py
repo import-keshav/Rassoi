@@ -9,9 +9,7 @@ urlpatterns = [
 	path('get-shop-groceries/<int:pk>', views.ListGroceries.as_view()),
 	path('get-specific-shop-grocery/<int:pk>', views.ListSpecificGrocery.as_view()),
 	path('create-groceries', views.CreateGrocery.as_view()),
-	path('create-groceries-price-in-kg', views.CreateGroceryInKgQuantityPrice.as_view()),
-	path('create-groceries-price-in-num', views.CreateGroceryInNumOfItemsPrice.as_view()),
-	path('create-groceries-price-in-lts', views.CreateGroceryInLitresPrice.as_view()),
+	path('create-groceries-price', views.CreateGroceryPrice.as_view()),
 
 	path('get-shop-fruits/<int:pk>', views.ListFruits.as_view()),
 	path('get-specific-shop-fruit/<int:pk>', views.ListSpecificFruit.as_view()),

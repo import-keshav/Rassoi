@@ -61,3 +61,29 @@ class UpdateDeleteClientFruitCartSerializer(serializers.ModelSerializer):
     class Meta:
         model = client_models.ClientFruitCart
         fields = '__all__'
+
+
+class CreateClientVegetableCartSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = client_models.ClientVegetableCart
+        fields = '__all__'
+    def validate(self, data):
+        must_keys = ['client', 'shop', 'fruit', 'num_of_items']
+        for key in must_keys:
+            if not key in data:
+                raise forms.ValidationError('Include ' + key + ' in data')
+        return data
+
+
+class ListClientVegetableCartSerializer(serializers.ModelSerializer):
+    vegetable = shop_serializer.ListVegetableSerializer()
+    client = GetClientInfoSerializer()
+    class Meta:
+        model = client_models.ClientVegetableCart
+        fields = '__all__'
+
+
+class UpdateDeleteClientVegetableCartSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = client_models.ClientVegetableCart
+        fields = '__all__'

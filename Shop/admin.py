@@ -2,8 +2,7 @@ from django.contrib import admin
 
 from .models import (
 	Shop, ShopPromocode, Grocery, Fruit, Vegetable, FoodPackage,
-	FoodDishes, Slots, GroceryInKgQuantityPrice, GroceryInNumOfItemsPrice,
-	GroceryInLitresPrice, FoodMeal
+	FoodDishes, Slots, GroceryPrice, FoodMeal
 )
 
 @admin.register(Shop)
@@ -20,16 +19,8 @@ class ShopPromocodeAdmin(admin.ModelAdmin):
 	list_filter = ('shop', 'valid_date',)
 
 
-class GroceryInKgQuantityPriceTabularInline(admin.TabularInline):
-	model = GroceryInKgQuantityPrice
-	extra = 1
-
-class GroceryInNumOfItemsPriceTabularInline(admin.TabularInline):
-	model = GroceryInNumOfItemsPrice
-	extra = 1
-
-class GroceryInLitresPriceTabularInline(admin.TabularInline):
-	model = GroceryInLitresPrice
+class GroceryPriceTabularInline(admin.TabularInline):
+	model = GroceryPrice
 	extra = 1
 
 
@@ -38,10 +29,7 @@ class GroceryAdmin(admin.ModelAdmin):
 	list_display = ('name', 'shop', 'is_available', 'is_approved','id')
 	search_fields = ('name', 'shop', 'id',)
 	list_filter = ('name', 'shop', 'is_available',)
-	inlines = (
-		GroceryInKgQuantityPriceTabularInline,
-		GroceryInNumOfItemsPriceTabularInline,
-		GroceryInLitresPriceTabularInline)
+	inlines = (GroceryPriceTabularInline,)
 
 
 @admin.register(Fruit)

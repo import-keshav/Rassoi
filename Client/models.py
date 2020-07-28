@@ -64,6 +64,36 @@ class ClientVegetableCart(models.Model):
         verbose_name_plural = 'Client Vegetable Carts'
 
 
+class ClientGroceryCart(models.Model):
+    client = models.ForeignKey(Client, on_delete=models.CASCADE, related_name="client_client_grocery_cart_client", null=True, blank=True)
+    shop = models.ForeignKey(shop_models.Shop, on_delete=models.CASCADE, related_name="client_client_grocery_cart_shop", null=True, blank=True)
+    grocery = models.ForeignKey(shop_models.Grocery, on_delete=models.CASCADE, related_name="client_client_grocery_cart_grocery", null=True, blank=True)
+    grocery_price = models.ForeignKey(shop_models.GroceryPrice, on_delete=models.CASCADE, related_name="client_client_grocery_cart_grocery_price", null=True, blank=True)
+    num_of_items = models.IntegerField(null=True, blank=True)
+    price = models.FloatField(null=True, blank=True, validators=[MinValueValidator(0)])
+
+    created = models.DateTimeField(auto_now_add=True, editable=False)
+    last_updated = models.DateTimeField(auto_now=True, editable=False)
+
+    class Meta:
+        verbose_name = 'Client Grocery Cart'
+        verbose_name_plural = 'Client Grocery Carts'
+
+
+class ClientFoodMealCart(models.Model):
+    client = models.ForeignKey(Client, on_delete=models.CASCADE, related_name="client_client_food_meal_cart_client", null=True, blank=True)
+    shop = models.ForeignKey(shop_models.Shop, on_delete=models.CASCADE, related_name="client_client_food_meal_cart_shop", null=True, blank=True)
+    food_meal = models.ForeignKey(shop_models.FoodMeal, on_delete=models.CASCADE, related_name="client_client_food_meal_cart_grocery", null=True, blank=True)
+    num_of_items = models.IntegerField(null=True, blank=True)
+    price = models.FloatField(null=True, blank=True, validators=[MinValueValidator(0)])
+
+    created = models.DateTimeField(auto_now_add=True, editable=False)
+    last_updated = models.DateTimeField(auto_now=True, editable=False)
+
+    class Meta:
+        verbose_name = 'Client Food Meal Cart'
+        verbose_name_plural = 'Client Food Meal Carts'
+
 # class FoodPackageClientSubscription(models.Model):
 #     client = models.ForeignKey(Client, on_delete=models.CASCADE, related_name="shop_food_package_client_subscription_client", null=True, blank=True)
 #     food_package = models.ForeignKey(FoodPackage, on_delete=models.CASCADE, related_name="shop_food_package_client_subscription_food_subscription", null=True, blank=True)

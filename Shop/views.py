@@ -33,6 +33,7 @@ class CreateGrocery(APIView):
         for key in valid_keys:
             if key not in self.request.data:
                 return Response('Include ' + key + ' in data', status=status.HTTP_400_BAD_REQUEST)
+        self.request.data['is_approved'] = False
         serializer_obj = shop_serializer.CreateGrocerySerializer(data=self.request.data)
         if serializer_obj.is_valid():
             serializer_obj.save()
@@ -46,19 +47,9 @@ class CreateGrocery(APIView):
         approval_obj.save()
 
 
-class CreateGroceryInKgQuantityPrice(generics.CreateAPIView):
+class CreateGroceryPrice(generics.CreateAPIView):
     renderer_classes = [JSONRenderer]
-    serializer_class = shop_serializer.GetGroceryInKgQuantityPriceSerializer
-
-
-class CreateGroceryInNumOfItemsPrice(generics.CreateAPIView):
-    renderer_classes = [JSONRenderer]
-    serializer_class = shop_serializer.GetGroceryInNumOfItemsPriceSerializer
-
-
-class CreateGroceryInLitresPrice(generics.CreateAPIView):
-    renderer_classes = [JSONRenderer]
-    serializer_class = shop_serializer.GetGroceryInLitresPriceSerializer
+    serializer_class = shop_serializer.GetGroceryPriceSerializer
 
 
 class ListFruits(generics.ListAPIView):

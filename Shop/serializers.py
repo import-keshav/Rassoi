@@ -10,38 +10,17 @@ class ListShop(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class GetGroceryInNumOfItemsPriceSerializer(serializers.ModelSerializer):
+class GetGroceryPriceSerializer(serializers.ModelSerializer):
     class Meta:
-        model = shop_models.GroceryInNumOfItemsPrice
+        model = shop_models.GroceryPrice
         fields = '__all__'
-
-class GetGroceryInKgQuantityPriceSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = shop_models.GroceryInKgQuantityPrice
-        fields = '__all__'
-
-class GetGroceryInLitresPriceSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = shop_models.GroceryInLitresPrice
-        fields = '__all__'
-
 
 class ListGroceriesSerializer(serializers.ModelSerializer):
-    kg_price = serializers.SerializerMethodField()
-    num_of_items_price = serializers.SerializerMethodField()
-    litre_price = serializers.SerializerMethodField()
+    prices = serializers.SerializerMethodField()
 
-    def get_kg_price(self, obj):
-        items = shop_models.GroceryInKgQuantityPrice.objects.filter(grocery=obj)
-        return [GetGroceryInKgQuantityPriceSerializer(item).data for item in items]
-
-    def get_num_of_items_price(self, obj):
-        items = shop_models.GroceryInNumOfItemsPrice.objects.filter(grocery=obj)
-        return [GetGroceryInNumOfItemsPriceSerializer(item).data for item in items]
-
-    def get_litre_price(self, obj):
-        items = shop_models.GroceryInLitresPrice.objects.filter(grocery=obj)
-        return [GetGroceryInLitresPriceSerializer(item).data for item in items]
+    def get_prices(self, obj):
+        items = shop_models.GroceryPrice.objects.filter(grocery=obj)
+        return [GetGroceryPriceSerializer(item).data for item in items]
 
     class Meta:
         model = shop_models.Grocery
