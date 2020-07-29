@@ -21,8 +21,7 @@ class ListClientNotification(generics.ListAPIView):
     renderer_classes = [JSONRenderer]
     serializer_class = client_serializer.GetClientNotificationSerializer
     def get_queryset(self):
-        client = client_models.Client.objects.filter(pk=self.kwargs['pk']).first()
-        return client_models.ClientNotification.objects.filter(client=client)
+        return client_models.ClientNotification.objects.filter(client__pk=self.kwargs['pk'])
 
 
 class CreateShopFeedBack(generics.CreateAPIView):
@@ -35,8 +34,7 @@ class ListShopFeedBack(generics.ListAPIView):
     serializer_class = client_serializer.ListShopFeedBackSerializer
 
     def get_queryset(self):
-        shop = shop_models.Shop.objects.filter(pk=self.kwargs['pk']).first()
-        return client_models.ShopFeedBack.objects.filter(shop=shop)
+        return client_models.ShopFeedBack.objects.filter(shop__pk=self.kwargs['pk'])
 
 
 class UpdateDeleteFeedBack(generics.RetrieveUpdateDestroyAPIView):
@@ -55,11 +53,48 @@ class ListItemInClientFruitCart(generics.ListAPIView):
     serializer_class = client_serializer.ListClientFruitCartSerializer
 
     def get_queryset(self):
-        client = client_models.Client.objects.filter(pk=self.kwargs['pk']).first()
-        return client_models.ClientFruitCart.objects.filter(client=client)
+        return client_models.ClientFruitCart.objects.filter(client__pk=self.kwargs['pk'])
 
 
 class UpdateDeleteItemInClientFruitCart(generics.RetrieveUpdateDestroyAPIView):
     renderer_classes = [JSONRenderer]
     serializer_class = client_serializer.UpdateDeleteClientFruitCartSerializer
+    queryset = client_models.ClientFruitCart.objects.all()
+
+
+class AddItemInClientVegetableCart(generics.CreateAPIView):
+    renderer_classes = [JSONRenderer]
+    serializer_class = client_serializer.CreateClientVegetableCartSerializer
+
+
+class ListItemInClientVegetableCart(generics.ListAPIView):
+    renderer_classes = [JSONRenderer]
+    serializer_class = client_serializer.ListClientVegetableCartSerializer
+
+    def get_queryset(self):
+        return client_models.ClientVegetableCart.objects.filter(client__pk=self.kwargs['pk'])
+
+
+class UpdateDeleteItemInClientVegetableCart(generics.RetrieveUpdateDestroyAPIView):
+    renderer_classes = [JSONRenderer]
+    serializer_class = client_serializer.UpdateDeleteClientVegetableCartSerializer
+    queryset = client_models.ClientFruitCart.objects.all()
+
+
+class AddItemInClientGroceryCart(generics.CreateAPIView):
+    renderer_classes = [JSONRenderer]
+    serializer_class = client_serializer.CreateClientGroceryCartSerializer
+
+
+class ListItemInClientGroceryCart(generics.ListAPIView):
+    renderer_classes = [JSONRenderer]
+    serializer_class = client_serializer.ListClientGroceryCartSerializer
+
+    def get_queryset(self):
+        return client_models.ClientGroceryCart.objects.filter(client__pk=self.kwargs['pk'])
+
+
+class UpdateDeleteItemInClientGroceryCart(generics.RetrieveUpdateDestroyAPIView):
+    renderer_classes = [JSONRenderer]
+    serializer_class = client_serializer.UpdateDeleteClientGroceryCartSerializer
     queryset = client_models.ClientFruitCart.objects.all()
