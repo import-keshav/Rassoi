@@ -18,6 +18,10 @@ urlpatterns = [
 	path('add-grocery-in-client-cart', views.AddItemInClientGroceryCart.as_view()),
 	path('update-delete-client-grocery-cart/<int:pk>', views.UpdateDeleteItemInClientGroceryCart.as_view()),
 
+	path('get-client-food-meal-cart/<int:pk>', views.ListItemInClientClientFoodMealCartCart.as_view()),
+	path('add-food-meal-in-client-cart', views.AddItemInClientFoodMealCart.as_view()),
+	path('update-delete-client-food-meal-cart/<int:pk>', views.UpdateDeleteItemInClientFoodMealCart.as_view()),
+
 	path('get-shop-feedback/<int:pk>', views.ListShopFeedBack.as_view()),
 	path('create-feedback', views.CreateShopFeedBack.as_view()),
 	path('update-delete-shop-feedback/<int:pk>', views.UpdateDeleteFeedBack.as_view()),

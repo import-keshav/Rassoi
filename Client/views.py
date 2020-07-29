@@ -98,3 +98,22 @@ class UpdateDeleteItemInClientGroceryCart(generics.RetrieveUpdateDestroyAPIView)
     renderer_classes = [JSONRenderer]
     serializer_class = client_serializer.UpdateDeleteClientGroceryCartSerializer
     queryset = client_models.ClientFruitCart.objects.all()
+
+
+class AddItemInClientFoodMealCart(generics.CreateAPIView):
+    renderer_classes = [JSONRenderer]
+    serializer_class = client_serializer.CreateClientFoodMealCartSerializer
+
+
+class ListItemInClientClientFoodMealCartCart(generics.ListAPIView):
+    renderer_classes = [JSONRenderer]
+    serializer_class = client_serializer.ListClientFoodMealCartSerializer
+
+    def get_queryset(self):
+        return client_models.ClientFoodMealCart.objects.filter(client__pk=self.kwargs['pk'])
+
+
+class UpdateDeleteItemInClientFoodMealCart(generics.RetrieveUpdateDestroyAPIView):
+    renderer_classes = [JSONRenderer]
+    serializer_class = client_serializer.UpdateDeleteClientFoodMealCartSerializer
+    queryset = client_models.ClientFoodMealCart.objects.all()

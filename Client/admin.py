@@ -43,3 +43,10 @@ class ClientGroceryCartAdmin(admin.ModelAdmin):
 	list_display = ('client', 'shop', 'grocery', 'grocery_price', 'num_of_items', 'id',)
 	search_fields = ('client__user__name', 'client__user__email')
 	list_filter = ('shop',)
+
+
+@admin.register(ClientFoodMealCart)
+class ClientFoodMealCartAdmin(admin.ModelAdmin):
+	list_display = ('client', 'shop', 'food_meal', 'num_of_items', 'id',)
+	search_fields = ('client__user__name', 'client__user__email')
+	list_filter = ('shop',)
