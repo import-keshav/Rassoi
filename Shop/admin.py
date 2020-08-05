@@ -67,9 +67,10 @@ class FoodPackageAdmin(admin.ModelAdmin):
 
 @admin.register(FoodMeal)
 class FoodMealAdmin(admin.ModelAdmin):
-	list_display = ('name', 'food_type', 'day', 'image', 'id')
+	list_display = ('name', 'shop', 'food_type', 'day', 'image', 
+		'is_available', 'is_approved', 'id')
 	search_fields = ('name', 'food_type', 'day', 'id')
-	list_filter = ('food_type', 'day')
+	list_filter = ('food_type', 'day', 'shop')
 	inlines = (FoodDishesTabularInline,)
 
 

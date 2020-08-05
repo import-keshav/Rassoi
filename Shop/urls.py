@@ -10,14 +10,17 @@ urlpatterns = [
 	path('get-specific-shop-grocery/<int:pk>', views.ListSpecificGrocery.as_view()),
 	path('create-groceries', views.CreateGrocery.as_view()),
 	path('create-groceries-price', views.CreateGroceryPrice.as_view()),
+	path('change-grocery-availability', views.ChangeIsAvailibilityOfGrocery.as_view()),
 
 	path('get-shop-fruits/<int:pk>', views.ListFruits.as_view()),
 	path('get-specific-shop-fruit/<int:pk>', views.ListSpecificFruit.as_view()),
 	path('create-fruit', views.CreateFruit.as_view()),
+	path('change-fruit-availability', views.ChangeIsAvailibilityOfFruit.as_view()),
 
 	path('get-shop-vegetables/<int:pk>', views.ListVegetables.as_view()),
 	path('get-specific-shop-vegetable/<int:pk>', views.ListSpecificVegetable.as_view()),
 	path('create-vegetable', views.CreateVegetable.as_view()),
+	path('change-vegetable-availability', views.ChangeIsAvailibilityOfVegetable.as_view()),
 
 	path('get-shop-slots/<int:pk>', views.ListSlots.as_view()),
 	path('create-shop-slot', views.CreateSlot.as_view()),
@@ -31,6 +34,7 @@ urlpatterns = [
 	path('get-specific-food-meal/<int:pk>', views.ListFoodMeal.as_view()),
 	path('create-food-meal', views.CreateFoodMeal.as_view()),
 	path('create-food-dish', views.CreateFoodDish.as_view()),
+	path('change-food-meal-availability', views.ChangeIsAvailibilityOfFoodMeal.as_view()),
 
 	path('get-shop-promocode/<int:pk>', views.ListShopPromocode.as_view()),
 	path('create-promocode', views.CreateShopPromocode.as_view()),

@@ -162,6 +162,7 @@ class FoodMeal(models.Model):
     image = models.FileField(null=True, blank=True, upload_to="")
     day =  models.TextField(choices=DAYS, null=True, blank=True)
     is_approved = models.BooleanField(default=False, null=True, blank=True)
+    is_available = models.BooleanField(default=False, null=True, blank=True)
     price = models.FloatField(null=True, blank=True, validators=[MinValueValidator(0)])
 
 

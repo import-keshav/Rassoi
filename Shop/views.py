@@ -47,6 +47,21 @@ class CreateGrocery(APIView):
         approval_obj.save()
 
 
+class ChangeIsAvailibilityOfGrocery(APIView):
+    def post(self, request):
+        valid_keys = ['grocery', 'is_available']
+        for key in valid_keys:
+            if key not in self.request.data:
+                return Response('Include ' + key + ' in data', status=status.HTTP_400_BAD_REQUEST)
+
+        grocery = shop_models.Grocery.objects.filter(pk=self.request.data['grocery'],).first()
+        if not grocery:
+            return Response({'message': 'Invalid Grocery ID'}, status=status.HTTP_400_BAD_REQUEST)
+        grocery.is_available = self.request.data['is_available']
+        grocery.save()
+        return Response({'message': 'Grocery Availability Changes Succesfully'}, status=status.HTTP_400_BAD_REQUEST)
+
+
 class CreateGroceryPrice(generics.CreateAPIView):
     renderer_classes = [JSONRenderer]
     serializer_class = shop_serializer.GetGroceryPriceSerializer
@@ -90,6 +105,21 @@ class CreateFruit(APIView):
         approval_obj.save()
 
 
+class ChangeIsAvailibilityOfFruit(APIView):
+    def post(self, request):
+        valid_keys = ['fruit', 'is_available']
+        for key in valid_keys:
+            if key not in self.request.data:
+                return Response('Include ' + key + ' in data', status=status.HTTP_400_BAD_REQUEST)
+
+        fruit = shop_models.Fruit.objects.filter(pk=self.request.data['fruit'],).first()
+        if not fruit:
+            return Response({'message': 'Invalid Fruit ID'}, status=status.HTTP_400_BAD_REQUEST)
+        fruit.is_available = self.request.data['is_available']
+        fruit.save()
+        return Response({'message': 'Fruit Availability Changes Succesfully'}, status=status.HTTP_400_BAD_REQUEST)
+
+
 class ListVegetables(generics.ListAPIView):
     renderer_classes = [JSONRenderer]
     serializer_class = shop_serializer.ListVegetableSerializer
@@ -126,6 +156,21 @@ class CreateVegetable(APIView):
         vegetable.save()
         approval_obj = approval_models.VegetableApproval(vegetable=vegetable, is_approved=False, action='Create')
         approval_obj.save()
+
+
+class ChangeIsAvailibilityOfVegetable(APIView):
+    def post(self, request):
+        valid_keys = ['vegetable', 'is_available']
+        for key in valid_keys:
+            if key not in self.request.data:
+                return Response('Include ' + key + ' in data', status=status.HTTP_400_BAD_REQUEST)
+
+        vegetable = shop_models.Vegetable.objects.filter(pk=self.request.data['vegetable'],).first()
+        if not vegetable:
+            return Response({'message': 'Invalid Vegetable ID'}, status=status.HTTP_400_BAD_REQUEST)
+        vegetable.is_available = self.request.data['is_available']
+        vegetable.save()
+        return Response({'message': 'Vegetable Availability Changes Succesfully'}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class ListSlots(generics.ListAPIView):
@@ -221,6 +266,22 @@ class CreateFoodMeal(APIView):
         approval_obj = approval_models.FoodMealApproval(meal=meal, is_approved=False, action='Create')
         approval_obj.save()
 
+
+class ChangeIsAvailibilityOfFoodMeal(APIView):
+    def post(self, request):
+        valid_keys = ['food_meal', 'is_available']
+        for key in valid_keys:
+            if key not in self.request.data:
+                return Response('Include ' + key + ' in data', status=status.HTTP_400_BAD_REQUEST)
+
+        food_meal = shop_models.FoodMeal.objects.filter(pk=self.request.data['food_meal'],).first()
+        if not food_meal:
+            return Response({'message': 'Invalid FoodMeal ID'}, status=status.HTTP_400_BAD_REQUEST)
+        food_meal.is_available = self.request.data['is_available']
+        food_meal.save()
+        return Response({'message': 'FoodMeal Availability Changes Succesfully'}, status=status.HTTP_400_BAD_REQUEST)
+
+
 class CreateFoodDish(generics.CreateAPIView):
     renderer_classes = [JSONRenderer]
     serializer_class = shop_serializer.CreateFoodDishesSerializer
@@ -232,6 +293,7 @@ class ListSpecificShop(generics.ListAPIView):
 
     def get_queryset(self):
         return shop_models.Shop.objects.filter(pk=self.kwargs['pk'])
+
 
 class ShopLogin(APIView):
     def post(self, request):
