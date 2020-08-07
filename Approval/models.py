@@ -1,7 +1,10 @@
 from django.db import models
 from django.db.models.query import QuerySet
 
-from Shop import models as shop_models
+from Fruit import models as fruit_models
+from Food import models as food_models
+from Grocery import models as grocery_models
+from Vegetable import models as vegetable_models
 
 ACTIONS = (
     ('Create', 'Create'),
@@ -10,7 +13,7 @@ ACTIONS = (
 )
 
 class GroceryApproval(models.Model):
-    grocery = models.ForeignKey(shop_models.Grocery, on_delete=models.CASCADE, related_name="grocery_grocery_approval_grocery", null=True, blank=True)
+    grocery = models.ForeignKey(grocery_models.Grocery, on_delete=models.CASCADE, related_name="grocery_grocery_approval_grocery", null=True, blank=True)
     is_approved = models.BooleanField(default=False, null=True, blank=True)
     action = models.TextField(choices=ACTIONS, null=True, blank=True)
 
@@ -22,14 +25,14 @@ class GroceryApproval(models.Model):
     def save(self):
         super(GroceryApproval, self).save()
         if self.is_approved:
-            grocery = shop_models.Grocery.objects.filter(pk=self.grocery.pk).first()
+            grocery = grocery_models.Grocery.objects.filter(pk=self.grocery.pk).first()
             grocery.is_approved = True
             grocery.save()
             super(GroceryApproval, self).delete()
 
 
 class FruitApproval(models.Model):
-    fruit = models.ForeignKey(shop_models.Fruit, on_delete=models.CASCADE, related_name="fruit_fruit_approval_fruit", null=True, blank=True)
+    fruit = models.ForeignKey(fruit_models.Fruit, on_delete=models.CASCADE, related_name="fruit_fruit_approval_fruit", null=True, blank=True)
     is_approved = models.BooleanField(default=False, null=True, blank=True)
     action = models.TextField(choices=ACTIONS, null=True, blank=True)
 
@@ -41,14 +44,14 @@ class FruitApproval(models.Model):
     def save(self):
         super(FruitApproval, self).save()
         if self.is_approved:
-            fruit = shop_models.Fruit.objects.filter(pk=self.fruit.pk).first()
+            fruit = fruit_models.Fruit.objects.filter(pk=self.fruit.pk).first()
             fruit.is_approved = True
             fruit.save()
             super(FruitApproval, self).delete()
 
 
 class VegetableApproval(models.Model):
-    vegetable = models.ForeignKey(shop_models.Vegetable, on_delete=models.CASCADE, related_name="vegetable_vegetable_approval_vegetable", null=True, blank=True)
+    vegetable = models.ForeignKey(vegetable_models.Vegetable, on_delete=models.CASCADE, related_name="vegetable_vegetable_approval_vegetable", null=True, blank=True)
     is_approved = models.BooleanField(default=False, null=True, blank=True)
     action = models.TextField(choices=ACTIONS, null=True, blank=True)
 
@@ -60,45 +63,24 @@ class VegetableApproval(models.Model):
     def save(self):
         super(VegetableApproval, self).save()
         if self.is_approved:
-            vegetable = shop_models.Vegetable.objects.filter(pk=self.vegetable.pk).first()
+            vegetable = vegetable_models.Vegetable.objects.filter(pk=self.vegetable.pk).first()
             vegetable.is_approved = True
             vegetable.save()
             super(VegetableApproval, self).delete()
 
 
-class FoodPackageApproval(models.Model):
-    food_package = models.ForeignKey(shop_models.FoodPackage, on_delete=models.CASCADE, related_name="food_package_food_package_approval_food_package", null=True, blank=True)
-    is_approved = models.BooleanField(default=False, null=True, blank=True)
-    action = models.TextField(choices=ACTIONS, null=True, blank=True)
-
-    class Meta:
-        verbose_name = 'Food Package Approval'
-        verbose_name_plural = 'Food Package Approvals'
-    def __str__(self):
-        return self.food_package.name
-    def save(self):
-        super(FoodPackageApproval, self).save()
-        if self.is_approved:
-            food_package = shop_models.FoodPackage.objects.filter(pk=self.food_package.pk).first()
-            food_package.is_approved = True
-            food_package.save()
-            super(FoodPackageApproval, self).delete()
-
-
 class FoodMealApproval(models.Model):
-    meal = models.ForeignKey(shop_models.FoodMeal, on_delete=models.CASCADE, related_name="approval_food_meal_meal", null=True, blank=True)
+    meal = models.ForeignKey(food_models.FoodMeal, on_delete=models.CASCADE, related_name="approval_food_meal_meal", null=True, blank=True)
     is_approved = models.BooleanField(default=False, null=True, blank=True)
     action = models.TextField(choices=ACTIONS, null=True, blank=True)
 
     class Meta:
         verbose_name = 'Food Meal Approval'
         verbose_name_plural = 'Food Meal Approvals'
-    # def __str__(self):
-    #     return self.meal
     def save(self):
         super(FoodMealApproval, self).save()
         if self.is_approved:
-            meal = shop_models.FoodMeal.objects.filter(pk=self.meal.pk).first()
+            meal = food_models.FoodMeal.objects.filter(pk=self.meal.pk).first()
             meal.is_approved = True
             meal.save()
             super(FoodMealApproval, self).delete()

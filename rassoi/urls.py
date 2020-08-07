@@ -21,10 +21,17 @@ from . import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('shop/', include('Shop.urls')),
+    # path('approval/', include('Approval.urls')),
+    path('cart/', include('Cart.urls')),
     path('client/', include('Client.urls')),
-    path('approval/', include('Approval.urls')),
     path('driver/', include('Driver.urls')),
+    path('feedback/', include('Feedback.urls')),
+    path('food/', include('Food.urls')),
+    path('fruit/', include('Fruit.urls')),
+    path('grocery/', include('Grocery.urls')),
+    path('shop/', include('Shop.urls')),
+    path('vegetable/', include('Vegetable.urls')),
+
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
