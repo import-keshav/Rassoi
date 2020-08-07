@@ -48,5 +48,5 @@ class FoodDishes(models.Model):
     created = models.DateTimeField(auto_now_add=True, editable=False)
     last_updated = models.DateTimeField(auto_now=True, editable=False)
     class Meta:
-        verbose_name = 'Food Dishe'
+        verbose_name = 'Food Dish'
         verbose_name_plural = 'Food Dishes'
