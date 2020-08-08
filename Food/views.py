@@ -18,6 +18,7 @@ class ListFoodMeal(generics.ListAPIView):
     def get_queryset(self):
         return food_models.FoodMeal.objects.filter(shop__pk=self.kwargs['pk'], is_approved=True)
 
+
 class CreateFoodMeal(APIView):
     def post(self, request):
         valid_keys = ['shop', 'name', 'food_type', 'day']
@@ -40,16 +41,11 @@ class CreateFoodMeal(APIView):
 
 
 class ChangeIsAvailibilityOfFoodMeal(APIView):
-    def post(self, request):
-        valid_keys = ['food_meal', 'is_available']
-        for key in valid_keys:
-            if key not in self.request.data:
-                return Response('Include ' + key + ' in data', status=status.HTTP_400_BAD_REQUEST)
-
-        food_meal = food_models.FoodMeal.objects.filter(pk=self.request.data['food_meal'],).first()
+    def post(self, request, pk):
+        food_meal = food_models.FoodMeal.objects.filter(pk=pk).first()
         if not food_meal:
             return Response({'message': 'Invalid FoodMeal ID'}, status=status.HTTP_400_BAD_REQUEST)
-        food_meal.is_available = self.request.data['is_available']
+        food_meal.is_available = not food_meal.is_available
         food_meal.save()
         return Response({'message': 'FoodMeal Availability Changes Succesfully'}, status=status.HTTP_200_OK)
 

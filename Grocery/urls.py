@@ -7,5 +7,5 @@ urlpatterns = [
 	path('get-specific-shop-grocery/<int:pk>', views.ListSpecificGrocery.as_view()),
 	path('create-groceries', views.CreateGrocery.as_view()),
 	path('create-groceries-price', views.CreateGroceryPrice.as_view()),
-	path('change-grocery-availability', views.ChangeIsAvailibilityOfGrocery.as_view()),
+	path('change-grocery-availability/<int:pk>', views.ChangeIsAvailibilityOfGrocery.as_view()),
 ]

@@ -49,18 +49,14 @@ class CreateVegetable(APIView):
 
 
 class ChangeIsAvailibilityOfVegetable(APIView):
-    def post(self, request):
-        valid_keys = ['vegetable', 'is_available']
-        for key in valid_keys:
-            if key not in self.request.data:
-                return Response('Include ' + key + ' in data', status=status.HTTP_400_BAD_REQUEST)
-
-        vegetable = vegetable_models.Vegetable.objects.filter(pk=self.request.data['vegetable'],).first()
+    def post(self, request, pk):
+        vegetable = vegetable_models.Vegetable.objects.filter(pk=pk,).first()
         if not vegetable:
             return Response({'message': 'Invalid Vegetable ID'}, status=status.HTTP_400_BAD_REQUEST)
-        vegetable.is_available = self.request.data['is_available']
+        vegetable.is_available = not vegetable.is_available
         vegetable.save()
         return Response({'message': 'Vegetable Availability Changes Succesfully'}, status=status.HTTP_200_OK)
+
 
 class CreateVegetablePrice(generics.CreateAPIView):
     renderer_classes = [JSONRenderer]

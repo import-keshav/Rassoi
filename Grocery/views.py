@@ -47,16 +47,11 @@ class CreateGrocery(APIView):
 
 
 class ChangeIsAvailibilityOfGrocery(APIView):
-    def post(self, request):
-        valid_keys = ['grocery', 'is_available']
-        for key in valid_keys:
-            if key not in self.request.data:
-                return Response('Include ' + key + ' in data', status=status.HTTP_400_BAD_REQUEST)
-
-        grocery = grocery_models.Grocery.objects.filter(pk=self.request.data['grocery'],).first()
+    def post(self, request, pk):
+        grocery = grocery_models.Grocery.objects.filter(pk=pk).first()
         if not grocery:
             return Response({'message': 'Invalid Grocery ID'}, status=status.HTTP_400_BAD_REQUEST)
-        grocery.is_available = self.request.data['is_available']
+        grocery.is_available = not grocery.is_available
         grocery.save()
         return Response({'message': 'Grocery Availability Changes Succesfully'}, status=status.HTTP_200_OK)
 

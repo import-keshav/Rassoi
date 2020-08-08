@@ -49,16 +49,11 @@ class CreateFruit(APIView):
 
 
 class ChangeIsAvailibilityOfFruit(APIView):
-    def post(self, request):
-        valid_keys = ['fruit', 'is_available']
-        for key in valid_keys:
-            if key not in self.request.data:
-                return Response('Include ' + key + ' in data', status=status.HTTP_400_BAD_REQUEST)
-
-        fruit = fruit_models.Fruit.objects.filter(pk=self.request.data['fruit'],).first()
+    def post(self, request, pk):
+        fruit = fruit_models.Fruit.objects.filter(pk=pk).first()
         if not fruit:
             return Response({'message': 'Invalid Fruit ID'}, status=status.HTTP_400_BAD_REQUEST)
-        fruit.is_available = self.request.data['is_available']
+        fruit.is_available = not fruit.is_available 
         fruit.save()
         return Response({'message': 'Fruit Availability Changes Succesfully'}, status=status.HTTP_200_OK)
 

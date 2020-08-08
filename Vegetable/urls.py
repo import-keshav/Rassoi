@@ -7,5 +7,5 @@ urlpatterns = [
 	path('get-specific-shop-vegetable/<int:pk>', views.ListSpecificVegetable.as_view()),
 	path('create-vegetable', views.CreateVegetable.as_view()),
 	path('create-vegetable-price', views.CreateVegetablePrice.as_view()),
-	path('change-vegetable-availability', views.ChangeIsAvailibilityOfVegetable.as_view()),
+	path('change-vegetable-availability/<int:pk>', views.ChangeIsAvailibilityOfVegetable.as_view()),
 ]
