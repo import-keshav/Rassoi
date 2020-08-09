@@ -27,6 +27,7 @@ urlpatterns = [
     path('driver/', include('Driver.urls')),
     path('feedback/', include('Feedback.urls')),
     path('food/', include('Food.urls')),
+    path('food-package/', include('FoodPackage.urls')),
     path('fruit/', include('Fruit.urls')),
     path('grocery/', include('Grocery.urls')),
     path('shop/', include('Shop.urls')),

@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'Driver',
     'Feedback',
     'Food',
+    'FoodPackage',
     'Fruit',
     'Grocery',
     'Order',
