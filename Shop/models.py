@@ -11,14 +11,6 @@ ITEMS = (
 )
 
 
-PRODUCT_CATEGORY = (
-    ('Grocery', 'Grocery'),
-    ('Fruit', 'Fruit'),
-    ('Vegetable', 'Vegetable'),
-    ('Food', 'Food')
-)
-
-
 def hash_password(password):
     """Hash a password for storing."""
     salt = hashlib.sha256(os.urandom(60)).hexdigest().encode('ascii')

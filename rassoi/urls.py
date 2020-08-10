@@ -30,6 +30,7 @@ urlpatterns = [
     path('food-package/', include('FoodPackage.urls')),
     path('fruit/', include('Fruit.urls')),
     path('grocery/', include('Grocery.urls')),
+    path('promocode/', include('Promocode.urls')),
     path('shop/', include('Shop.urls')),
     path('vegetable/', include('Vegetable.urls')),
 
