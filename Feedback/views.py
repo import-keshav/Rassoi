@@ -26,3 +26,11 @@ class UpdateDeleteFeedBack(generics.RetrieveUpdateDestroyAPIView):
     renderer_classes = [JSONRenderer]
     serializer_class = feedback_serializer.ListShopFeedBackSerializer
     queryset = feedback_models.ShopFeedBack.objects.all()
+
+
+class ListClientFeedBack(generics.ListAPIView):
+    renderer_classes = [JSONRenderer]
+    serializer_class = feedback_serializer.ListShopFeedBackSerializer
+
+    def get_queryset(self):
+        return feedback_models.ShopFeedBack.objects.filter(client__pk=self.kwargs['pk'])
