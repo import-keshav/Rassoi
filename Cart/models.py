@@ -14,6 +14,7 @@ class ClientFruitCart(models.Model):
     client = models.ForeignKey(cliet_models.Client, on_delete=models.CASCADE, related_name="cart_client_fruit_cart_client", null=True, blank=True)
     shop = models.ForeignKey(shop_models.Shop, on_delete=models.CASCADE, related_name="cart_client_fruit_cart_shop", null=True, blank=True)
     fruit = models.ForeignKey(fruit_models.Fruit, on_delete=models.CASCADE, related_name="cart_client_fruit_cart_fruit", null=True, blank=True)
+    fruit_price = models.ForeignKey(fruit_models.FruitPrice, on_delete=models.CASCADE, related_name="cart_client_fruit_cart_fruit_price", null=True, blank=True)
     num_of_items = models.IntegerField(null=True, blank=True)
     price = models.FloatField(null=True, blank=True, validators=[MinValueValidator(0)])
 
@@ -29,6 +30,7 @@ class ClientVegetableCart(models.Model):
     client = models.ForeignKey(cliet_models.Client, on_delete=models.CASCADE, related_name="cart_client_vegetable_cart_client", null=True, blank=True)
     shop = models.ForeignKey(shop_models.Shop, on_delete=models.CASCADE, related_name="cart_client_vegetable_cart_shop", null=True, blank=True)
     vegetable = models.ForeignKey(vegetable_models.Vegetable, on_delete=models.CASCADE, related_name="cart_client_vegetable_cart_vegetable", null=True, blank=True)
+    vegetable_price = models.ForeignKey(vegetable_models.VegetablePrice, on_delete=models.CASCADE, related_name="cart_client_vegetable_cart_vegetable_price", null=True, blank=True)
     num_of_items = models.IntegerField(null=True, blank=True)
     price = models.FloatField(null=True, blank=True, validators=[MinValueValidator(0)])
 

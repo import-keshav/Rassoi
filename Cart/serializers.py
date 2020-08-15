@@ -24,6 +24,7 @@ class CreateClientFruitCartSerializer(serializers.ModelSerializer):
 
 class ListClientFruitCartSerializer(serializers.ModelSerializer):
     fruit = fruit_serializer.ListFruitsSerializer()
+    fruit_price = fruit_serializer.GetFruitPriceSerializer()
     client = client_serializer.GetClientInfoSerializer()
     class Meta:
         model = cart_models.ClientFruitCart
@@ -50,6 +51,7 @@ class CreateClientVegetableCartSerializer(serializers.ModelSerializer):
 
 class ListClientVegetableCartSerializer(serializers.ModelSerializer):
     vegetable = vegetable_serializer.ListVegetableSerializer()
+    vegetable_price = vegetable_serializer.GetVegetablePriceSerializer()
     client = client_serializer.GetClientInfoSerializer()
     class Meta:
         model = cart_models.ClientVegetableCart
