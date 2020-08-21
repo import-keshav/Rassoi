@@ -19,6 +19,14 @@ class ListFoodMeal(generics.ListAPIView):
         return food_models.FoodMeal.objects.filter(shop__pk=self.kwargs['pk'], is_approved=True)
 
 
+class ListFoodMealOnClientSide(generics.ListAPIView):
+    renderer_classes = [JSONRenderer]
+    serializer_class = food_serializer.ListFoodDishesOnClientSideSerializer
+
+    def get_queryset(self):
+        return food_models.FoodMeal.objects.filter(shop__pk=self.kwargs['shop'], is_approved=True)
+
+
 class CreateFoodMeal(APIView):
     def post(self, request):
         valid_keys = ['shop', 'name', 'food_type', 'day']

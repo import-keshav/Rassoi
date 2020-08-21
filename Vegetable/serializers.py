@@ -2,6 +2,7 @@ from django import forms
 from rest_framework import serializers
 
 from . import models as vegetable_models
+from Cart import models as cart_models
 
 
 class GetVegetablePriceSerializer(serializers.ModelSerializer):
@@ -12,6 +13,25 @@ class GetVegetablePriceSerializer(serializers.ModelSerializer):
 
 class ListVegetableSerializer(serializers.ModelSerializer):
     prices = serializers.SerializerMethodField()
+
+    def get_prices(self, obj):
+        items = vegetable_models.VegetablePrice.objects.filter(vegetable=obj)
+        return [GetVegetablePriceSerializer(item).data for item in items]
+
+    class Meta:
+        model = vegetable_models.Vegetable
+        fields = '__all__'
+
+
+class ListVegetableOnClientSideSerializer(serializers.ModelSerializer):
+    prices = serializers.SerializerMethodField()
+    is_in_cart = serializers.SerializerMethodField()
+
+    def get_is_in_cart(self, obj):
+        vegetable = cart_models.ClientVegetableCart.objects.filter(vegetable=obj, client__pk=int(self.context['view'].kwargs['client'])).first()
+        if vegetable:
+            return True
+        return False
 
     def get_prices(self, obj):
         items = vegetable_models.VegetablePrice.objects.filter(vegetable=obj)

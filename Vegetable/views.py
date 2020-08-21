@@ -19,6 +19,14 @@ class ListVegetables(generics.ListAPIView):
         return vegetable_models.Vegetable.objects.filter(shop__pk=self.kwargs['pk'], is_approved=True)
 
 
+class ListVegetablesOnClientSide(generics.ListAPIView):
+    renderer_classes = [JSONRenderer]
+    serializer_class = vegetable_serializer.ListVegetableOnClientSideSerializer
+
+    def get_queryset(self):
+        return vegetable_models.Vegetable.objects.filter(shop__pk=self.kwargs['shop'], is_approved=True)
+
+
 class ListSpecificVegetable(generics.ListAPIView):
     renderer_classes = [JSONRenderer]
     serializer_class = vegetable_serializer.ListVegetableSerializer

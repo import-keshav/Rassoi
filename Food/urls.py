@@ -4,6 +4,7 @@ from . import views
 
 urlpatterns = [
 	path('get-food-meal/<int:pk>', views.ListFoodMeal.as_view()),
+	path('get-client-side-food-meal/<int:shop>/<int:client>', views.ListFoodMealOnClientSide.as_view()),
 	path('get-specific-food-meal/<int:pk>', views.ListFoodMeal.as_view()),
 	path('create-food-meal', views.CreateFoodMeal.as_view()),
 	path('create-food-dish', views.CreateFoodDish.as_view()),

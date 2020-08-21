@@ -18,6 +18,14 @@ class ListGroceries(generics.ListAPIView):
         return grocery_models.Grocery.objects.filter(shop__pk=self.kwargs['pk'], is_approved=True)
 
 
+class ListGroceriesOnClientSide(generics.ListAPIView):
+    renderer_classes = [JSONRenderer]
+    serializer_class = grocery_serializer.ListGroceriesOnClientSideSerializer
+
+    def get_queryset(self):
+        return grocery_models.Grocery.objects.filter(shop__pk=self.kwargs['shop'], is_approved=True)
+
+
 class ListSpecificGrocery(generics.ListAPIView):
     renderer_classes = [JSONRenderer]
     serializer_class = grocery_serializer.ListGroceriesSerializer

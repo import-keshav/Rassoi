@@ -2,10 +2,25 @@ from django import forms
 from rest_framework import serializers
 
 from . import models as food_models
+from Cart import models as cart_models
 
 
 class ListFoodDishesSerializer(serializers.ModelSerializer):
     class Meta:
+        model = food_models.FoodDishes
+        fields = '__all__'
+
+
+class ListFoodDishesOnClientSideSerializer(serializers.ModelSerializer):
+    is_in_cart = serializers.SerializerMethodField()
+
+    def get_is_in_cart(self, obj):
+        food_meal = cart_models.ClientFoodMealCart.objects.filter(food_meal=obj, client__pk=int(self.context['view'].kwargs['client'])).first()
+        if food_meal:
+            return True
+        return False
+    class Meta:
+
         model = food_models.FoodDishes
         fields = '__all__'
 

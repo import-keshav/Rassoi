@@ -12,7 +12,6 @@ class Vegetable(models.Model):
     shop = models.ForeignKey(shop_models.Shop, on_delete=models.CASCADE, related_name="vegetable_vegetable_shop", null=True, blank=True)
     name = models.CharField(max_length=100, null=True, blank=True)
     image = models.FileField(null=True, blank=True, upload_to="")
-    price_per_kg = models.FloatField(null=True, blank=True, validators=[MinValueValidator(0)])
     is_available = models.BooleanField(default=False, null=True, blank=True)
     is_approved = models.BooleanField(default=False, null=True, blank=True)
 
