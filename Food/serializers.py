@@ -17,8 +17,8 @@ class ListFoodDishesOnClientSideSerializer(serializers.ModelSerializer):
     def get_is_in_cart(self, obj):
         food_meal = cart_models.ClientFoodMealCart.objects.filter(food_meal=obj, client__pk=int(self.context['view'].kwargs['client'])).first()
         if food_meal:
-            return True
-        return False
+            return [True, food_meal.pk]
+        return [False]
     class Meta:
 
         model = food_models.FoodDishes

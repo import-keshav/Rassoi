@@ -30,8 +30,8 @@ class ListVegetableOnClientSideSerializer(serializers.ModelSerializer):
     def get_is_in_cart(self, obj):
         vegetable = cart_models.ClientVegetableCart.objects.filter(vegetable=obj, client__pk=int(self.context['view'].kwargs['client'])).first()
         if vegetable:
-            return True
-        return False
+            return [True, vegetable.pk]
+        return [False]
 
     def get_prices(self, obj):
         items = vegetable_models.VegetablePrice.objects.filter(vegetable=obj)
