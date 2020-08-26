@@ -1,10 +1,10 @@
 from django.shortcuts import render
-
 from rest_framework.response import Response
 from rest_framework.renderers import JSONRenderer
 from rest_framework.views import APIView
 from rest_framework.pagination import PageNumberPagination
 from rest_framework import generics, status, filters
+from django_filters.rest_framework import DjangoFilterBackend
 
 from . import models as food_models
 from . import serializers as food_serializer
@@ -14,6 +14,8 @@ from Approval import models as approval_models
 class ListFoodMeal(generics.ListAPIView):
     renderer_classes = [JSONRenderer]
     serializer_class = food_serializer.ListFoodMealSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['day', 'food_type']
 
     def get_queryset(self):
         return food_models.FoodMeal.objects.filter(shop__pk=self.kwargs['pk'], is_approved=True)
