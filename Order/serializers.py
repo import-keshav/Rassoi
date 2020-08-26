@@ -9,6 +9,67 @@ from Grocery import models as grocery_models
 from Vegetable import models as vegetable_models
 from Shop import models as shop_models
 
+from Client import serializers as client_serializer
+from Fruit import serializers as fruit_serializer
+from Food import serializers as food_serializer
+from Grocery import serializers as grocery_serializer
+from Promocode import serializers as promocode_serializer
+from Shop import serializers as shop_serializer
+from Vegetable import serializers as vegetable_serializer
+
+
+class ListOrderGrocerySerializer(serializers.ModelSerializer):
+    grocery = grocery_serializer.ListGroceriesSerializer()
+    grocery_price = grocery_serializer.GetGroceryPriceSerializer()
+    class Meta:
+        model = order_models.OrderGrocery
+        fields = '__all__'
+
+
+class ListOrderFruitSerializer(serializers.ModelSerializer):
+    fruit = fruit_serializer.ListFruitsSerializer()
+    fruit_price = fruit_serializer.GetFruitPriceSerializer()
+    class Meta:
+        model = order_models.OrderFruit
+        fields = '__all__'
+
+
+class ListOrderVegetableSerializer(serializers.ModelSerializer):
+    vegetable = vegetable_serializer.ListVegetableSerializer()
+    vegetable_price = vegetable_serializer.GetVegetablePriceSerializer()
+    class Meta:
+        model = order_models.OrderVegetable
+        fields = '__all__'
+
+
+class ListOrderFoodMealSerializer(serializers.ModelSerializer):
+    food_meal = food_serializer.ListFoodMealSerializer()
+    class Meta:
+        model = order_models.OrderFoodMeal
+        fields = '__all__'
+
+
+class ListOngoingShopOrderSerializer(serializers.ModelSerializer):
+    client = client_serializer.GetClientInfoSerializer()
+    shop = shop_serializer.ListShop()
+    slot = shop_serializer.ListSlotsSerializer()
+    promocode_used = promocode_serializer.ListShopPromocodeSerializer()
+    items = serializers.SerializerMethodField()
+
+    def get_items(self, obj):
+        if obj.order_type == 'Grocery':
+            return [ListOrderGrocerySerializer(order_grocery).data for order_grocery in order_models.OrderGrocery.objects.filter(order=obj)]
+        elif obj.order_type == 'Fruit':
+            return [ListOrderFruitSerializer(order_fruit).data for order_fruit in order_models.OrderFruit.objects.filter(order=obj)]
+        elif obj.order_type == 'Vegetable':
+            return [ListOrderVegetableSerializer(order_vegetable).data for order_vegetable in order_models.OrderVegetable.objects.filter(order=obj)]
+        elif obj.order_type == 'Food':
+            return [ListOrderFoodMealSerializer(order_food_meal).data for order_food_meal in order_models.OrderFoodMeal.objects.filter(order=obj)]
+
+    class Meta:
+        model = order_models.Order
+        fields = '__all__'
+
 
 class CreateOrderSerializer(serializers.ModelSerializer):
     class Meta:

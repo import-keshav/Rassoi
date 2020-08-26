@@ -38,4 +38,27 @@ class CreateOrder(APIView):
             order_item_obj.save()
         else:
             return Response(order_item_obj.errors)
+
+        order = order_models.Order.objects.filter(pk=order_serializer_obj.data['id']).first()
+        ongoing_order = order_models.OnGoingOrders(order=order, shop=order.shop)
+        ongoing_order.save()
+
         return Response({'message': 'Orders Created Successfully', 'id': order_serializer_obj.data['id']})
+
+
+class ListOngoingShopOrder(generics.ListAPIView):
+    renderer_classes = [JSONRenderer]
+    serializer_class = order_serializer.ListOngoingShopOrderSerializer
+
+    def get_queryset(self):
+        ongoing_orders = order_models.OnGoingOrders.objects.filter(order__shop__pk=self.kwargs['pk'])
+        return [ongoing_order.order for ongoing_order in ongoing_orders]
+
+
+class ListSpecificOngoingShopOrder(generics.ListAPIView):
+    renderer_classes = [JSONRenderer]
+    serializer_class = order_serializer.ListOngoingShopOrderSerializer
+
+    def get_queryset(self):
+        ongoing_orders = order_models.OnGoingOrders.objects.filter(pk=self.kwargs['pk'])
+        return [ongoing_order.order for ongoing_order in ongoing_orders]

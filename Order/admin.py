@@ -36,3 +36,8 @@ class OrderAdmin(admin.ModelAdmin):
 		OrderVegetableTabularInline,
 		OrderFoodMealTabularInline
 	)
+
+
+@admin.register(OnGoingOrders)
+class OnGoingOrdersAdmin(admin.ModelAdmin):
+	list_display = [field.name for field in OnGoingOrders._meta.fields]
