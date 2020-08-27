@@ -11,4 +11,5 @@ urlpatterns = [
 	path('get-specific-shop-order/<int:pk>', views.ListSpecificShopOrder.as_view()),
 	path('get-client-ongoing-order/<int:pk>', views.ListClientOngoingOrder.as_view()),
 	path('get-client-past-order/<int:pk>', views.ListClientPastOrder.as_view()),
+	path('order-completed',  views.OrderCompleted.as_view())
 ]

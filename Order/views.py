@@ -101,3 +101,20 @@ class UpdateOrder(generics.UpdateAPIView):
     renderer_classes = [JSONRenderer]
     serializer_class = order_serializer.UpdateOrderSerializer
     queryset = order_models.Order.objects.all()
+
+
+class OrderCompleted(APIView):
+    def post(self, request):
+        if 'order' not in self.request.data:
+            return Response({'message': 'Include Order in Data'}, status=status.HTTP_400_BAD_REQUEST)
+
+        order = order_models.Order.objects.filter(pk=self.request.data['order']).first()
+        if not order:
+            return Response({'message': 'Invalid Order ID'}, status=status.HTTP_400_BAD_REQUEST)
+
+        obj = order_models.OnGoingOrders.objects.filter(order=order).first()
+        if obj:
+            obj.delete()
+        order.is_delivered = True
+        order.save()
+        return Response({'message': 'Order Completed Successfully'}, status=status.HTTP_200_OK)
