@@ -23,7 +23,7 @@ class ListFoodMealOnClientSide(generics.ListAPIView):
     renderer_classes = [JSONRenderer]
     serializer_class = food_serializer.ListFoodDishesOnClientSideSerializer
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['day', 'food_type']
+    filterset_fields = ['food_type']
 
     def get_queryset(self):
         return food_models.FoodMeal.objects.filter(shop__pk=self.kwargs['shop'], is_approved=True)

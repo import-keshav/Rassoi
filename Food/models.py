@@ -9,23 +9,12 @@ FOOD_TYPE = (
     ('Dinner', 'Dinner'),
 )
 
-DAYS = (
-    ('Monday', 'Monday'),
-    ('Tuesday', 'Tuesday'),
-    ('Wednesday', 'Wednesday'),
-    ('Thursday', 'Thursday'),
-    ('Friday', 'Friday'),
-    ('Saturday', 'Saturday'),
-    ('Sunday', 'Sunday'),
-)
-
 
 class FoodMeal(models.Model):
     shop = models.ForeignKey(shop_models.Shop, on_delete=models.CASCADE, related_name="food_food_meal_shop", null=True, blank=True)
     name = models.CharField(max_length=100, null=True, blank=True)
     food_type = models.TextField(choices=FOOD_TYPE, null=True, blank=True)
     image = models.FileField(null=True, blank=True, upload_to="")
-    day =  models.TextField(choices=DAYS, null=True, blank=True)
     is_approved = models.BooleanField(default=False, null=True, blank=True)
     is_available = models.BooleanField(default=False, null=True, blank=True)
     price = models.FloatField(null=True, blank=True, validators=[MinValueValidator(0)])
