@@ -15,6 +15,8 @@ from Approval import models as approval_models
 class ListSlots(generics.ListAPIView):
     renderer_classes = [JSONRenderer]
     serializer_class = shop_serializer.ListSlotsSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['category']
 
     def get_queryset(self):
         shop = shop_models.Shop.objects.filter(pk=self.kwargs['pk']).first()
