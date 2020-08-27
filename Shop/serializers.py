@@ -21,7 +21,7 @@ class CreateSlotSerializer(serializers.ModelSerializer):
         model = shop_models.Slots
         fields = '__all__'
     def validate(self, data):
-        must_keys = ['shop', 'category', 'start_time', 'end_time', 'date']
+        must_keys = ['shop', 'category', 'start_time', 'end_time']
         for key in must_keys:
             if not key in data:
                 raise forms.ValidationError('Include ' + key + ' in data')
