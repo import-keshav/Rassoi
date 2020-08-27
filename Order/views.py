@@ -21,23 +21,45 @@ class CreateOrder(APIView):
         order_serializer_obj = order_serializer.CreateOrderSerializer(data=order_dict)
         if order_serializer_obj.is_valid():
             order_serializer_obj.save()
-            self.request.data['items']['order'] = order_serializer_obj.data['id']
         else:
             return Response(order_serializer_obj.errors)
 
-        if order_dict['order_type'] == 'Grocery':
-            order_item_obj = order_serializer.CreateOrderGrocerySerializer(data=self.request.data['items'])
-        elif order_dict['order_type'] == 'Fruit':
-            order_item_obj = order_serializer.CreateOrderFruitSerializer(data=self.request.data['items'])
-        elif order_dict['order_type'] == 'Vegetable':
-            order_item_obj = order_serializer.CreateOrderVegetableSerializer(data=self.request.data['items'])
-        elif order_dict['order_type'] == 'Food':
-            order_item_obj = order_serializer.CreateOrderFoodMealSerializer(data=self.request.data['items'])
+        order_items = self.request.data['items']
 
-        if order_item_obj.is_valid():
-            order_item_obj.save()
-        else:
-            return Response(order_item_obj.errors)
+
+###############       Pre Validation of Order Items          ###############
+        for order_item in order_items:
+            order_item['order'] = order_serializer_obj.data['id']
+            if order_dict['order_type'] == 'Grocery':
+                order_item_obj = order_serializer.CreateOrderGrocerySerializer(data=order_item)
+            elif order_dict['order_type'] == 'Fruit':
+                order_item_obj = order_serializer.CreateOrderFruitSerializer(data=order_item)
+            elif order_dict['order_type'] == 'Vegetable':
+                order_item_obj = order_serializer.CreateOrderVegetableSerializer(data=order_item)
+            elif order_dict['order_type'] == 'Food':
+                order_item_obj = order_serializer.CreateOrderFoodMealSerializer(data=order_item)
+
+            if order_item_obj.is_valid():
+                continue
+            else:
+                return Response(order_item_obj.errors)
+###########################################################################
+
+
+        for order_item in order_items:
+            if order_dict['order_type'] == 'Grocery':
+                order_item_obj = order_serializer.CreateOrderGrocerySerializer(data=order_item)
+            elif order_dict['order_type'] == 'Fruit':
+                order_item_obj = order_serializer.CreateOrderFruitSerializer(data=order_item)
+            elif order_dict['order_type'] == 'Vegetable':
+                order_item_obj = order_serializer.CreateOrderVegetableSerializer(data=order_item)
+            elif order_dict['order_type'] == 'Food':
+                order_item_obj = order_serializer.CreateOrderFoodMealSerializer(data=order_item)
+
+            if order_item_obj.is_valid():
+                order_item_obj.save()
+            else:
+                return Response(order_item_obj.errors)
 
         order = order_models.Order.objects.filter(pk=order_serializer_obj.data['id']).first()
         ongoing_order = order_models.OnGoingOrders(order=order, shop=order.shop)
