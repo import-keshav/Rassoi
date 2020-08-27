@@ -42,7 +42,7 @@ class CreateOrder(APIView):
             if order_item_obj.is_valid():
                 continue
             else:
-                return Response(order_item_obj.errors)
+                return Response(order_item_obj.errors, status=status.HTTP_400_BAD_REQUEST)
 ###########################################################################
 
 
@@ -59,7 +59,7 @@ class CreateOrder(APIView):
             if order_item_obj.is_valid():
                 order_item_obj.save()
             else:
-                return Response(order_item_obj.errors)
+                return Response(order_item_obj.errors, status=status.HTTP_400_BAD_REQUEST)
 
         order = order_models.Order.objects.filter(pk=order_serializer_obj.data['id']).first()
         ongoing_order = order_models.OnGoingOrders(order=order, shop=order.shop)
