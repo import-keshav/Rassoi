@@ -8,7 +8,7 @@ from rest_framework import generics, status, filters
 
 from . import models as order_models
 from . import serializers as order_serializer
-
+from Cart import models as cart_models
 
 class CreateOrder(APIView):
     def post(self, request):
@@ -42,6 +42,15 @@ class CreateOrder(APIView):
         order = order_models.Order.objects.filter(pk=order_serializer_obj.data['id']).first()
         ongoing_order = order_models.OnGoingOrders(order=order, shop=order.shop)
         ongoing_order.save()
+
+        if order_dict['order_type'] == 'Grocery':
+            cart_models.ClientGroceryCart.objects.filter(client__pk=self.request.data['order']['client']).delete()
+        elif order_dict['order_type'] == 'Fruit':
+            cart_models.ClientFruitCart.objects.filter(client__pk=self.request.data['order']['client']).delete()
+        elif order_dict['order_type'] == 'Vegetable':
+            cart_models.ClientVegetableCart.objects.filter(client__pk=self.request.data['order']['client']).delete()
+        elif order_dict['order_type'] == 'Food':
+            cart_models.ClientFoodMealCart.objects.filter(client__pk=self.request.data['order']['client']).delete()
 
         return Response({'message': 'Orders Created Successfully', 'id': order_serializer_obj.data['id']})
 
