@@ -83,6 +83,10 @@ class CreateOrderSerializer(serializers.ModelSerializer):
         for key in must_keys:
             if not key in data:
                 raise forms.ValidationError('Include ' + key + ' in data')
+        if data['slot'].category != data['order_type']:
+            raise forms.ValidationError('This Slot is not of the given order type')            
+        if data['slot'].shop != data['shop']:
+            raise forms.ValidationError('This Slot is not of the given Shop')            
         return data
 
 
@@ -150,3 +154,9 @@ class CreateOrderFoodMealSerializer(serializers.ModelSerializer):
         if data['order'].shop != data['food_meal'].shop:
             raise forms.ValidationError('This Food Meal not belongs to the given order shop')
         return data
+
+
+class UpdateOrderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = order_models.Order
+        fields = '__all__'

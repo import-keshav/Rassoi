@@ -55,6 +55,14 @@ class ListOngoingShopOrder(generics.ListAPIView):
         return [ongoing_order.order for ongoing_order in ongoing_orders]
 
 
+class ListShopPastOrder(generics.ListAPIView):
+    renderer_classes = [JSONRenderer]
+    serializer_class = order_serializer.ListOngoingShopOrderSerializer
+
+    def get_queryset(self):
+        return order_models.Order.objects.filter(shop__pk=self.kwargs['pk']).order_by('-created')
+
+
 class ListSpecificOngoingShopOrder(generics.ListAPIView):
     renderer_classes = [JSONRenderer]
     serializer_class = order_serializer.ListOngoingShopOrderSerializer
@@ -62,3 +70,34 @@ class ListSpecificOngoingShopOrder(generics.ListAPIView):
     def get_queryset(self):
         ongoing_orders = order_models.OnGoingOrders.objects.filter(pk=self.kwargs['pk'])
         return [ongoing_order.order for ongoing_order in ongoing_orders]
+
+
+class ListClientOngoingOrder(generics.ListAPIView):
+    renderer_classes = [JSONRenderer]
+    serializer_class = order_serializer.ListOngoingShopOrderSerializer
+
+    def get_queryset(self):
+        ongoing_orders = order_models.OnGoingOrders.objects.filter(order__client__pk=self.kwargs['pk'])
+        return [ongoing_order.order for ongoing_order in ongoing_orders]
+
+
+class ListSpecificShopOrder(generics.ListAPIView):
+    renderer_classes = [JSONRenderer]
+    serializer_class = order_serializer.ListOngoingShopOrderSerializer
+
+    def get_queryset(self):
+        return order_models.Order.objects.filter(pk=self.kwargs['pk'])
+
+
+class ListClientPastOrder(generics.ListAPIView):
+    renderer_classes = [JSONRenderer]
+    serializer_class = order_serializer.ListOngoingShopOrderSerializer
+
+    def get_queryset(self):
+        return order_models.Order.objects.filter(client__pk=self.kwargs['pk']).order_by('-created')
+
+
+class UpdateOrder(generics.UpdateAPIView):
+    renderer_classes = [JSONRenderer]
+    serializer_class = order_serializer.UpdateOrderSerializer
+    queryset = order_models.Order.objects.all()
