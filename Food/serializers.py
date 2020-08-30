@@ -12,7 +12,12 @@ class ListFoodDishesSerializer(serializers.ModelSerializer):
 
 
 class ListFoodDishesOnClientSideSerializer(serializers.ModelSerializer):
+    dishes = serializers.SerializerMethodField()
     is_in_cart = serializers.SerializerMethodField()
+
+    def get_dishes(self, obj):
+        dishes = food_models.FoodDishes.objects.filter(meal=obj)
+        return [ListFoodDishesSerializer(dish).data for dish in dishes]
 
     def get_is_in_cart(self, obj):
         food_meal = cart_models.ClientFoodMealCart.objects.filter(food_meal=obj, client__pk=int(self.context['view'].kwargs['client'])).first()
@@ -21,7 +26,7 @@ class ListFoodDishesOnClientSideSerializer(serializers.ModelSerializer):
         return [False]
     class Meta:
 
-        model = food_models.FoodDishes
+        model = food_models.FoodMeal
         fields = '__all__'
 
 
