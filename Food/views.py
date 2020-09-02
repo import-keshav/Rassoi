@@ -26,7 +26,7 @@ class ListFoodMealOnClientSide(generics.ListAPIView):
     filterset_fields = ['food_type']
 
     def get_queryset(self):
-        return food_models.FoodMeal.objects.filter(shop__pk=self.kwargs['shop'], is_approved=True)
+        return food_models.FoodMeal.objects.filter(shop__pk=self.kwargs['shop'], is_approved=True, is_available=True)
 
 
 class CreateFoodMeal(APIView):

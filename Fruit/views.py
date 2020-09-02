@@ -24,7 +24,7 @@ class ListFruitsOnClientSide(generics.ListAPIView):
     serializer_class = fruit_serializer.ListFruitsOnClientSideSerializer
 
     def get_queryset(self):
-        return fruit_models.Fruit.objects.filter(shop__pk=self.kwargs['shop'], is_approved=True)
+        return fruit_models.Fruit.objects.filter(shop__pk=self.kwargs['shop'], is_approved=True, is_available=True)
 
 
 class ListSpecificFruit(generics.ListAPIView):

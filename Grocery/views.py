@@ -23,7 +23,7 @@ class ListGroceriesOnClientSide(generics.ListAPIView):
     serializer_class = grocery_serializer.ListGroceriesOnClientSideSerializer
 
     def get_queryset(self):
-        return grocery_models.Grocery.objects.filter(shop__pk=self.kwargs['shop'], is_approved=True)
+        return grocery_models.Grocery.objects.filter(shop__pk=self.kwargs['shop'], is_approved=True, is_available=True)
 
 
 class ListSpecificGrocery(generics.ListAPIView):
