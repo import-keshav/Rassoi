@@ -22,7 +22,9 @@ class CreateOrder(APIView):
         if order_serializer_obj.is_valid():
             order_serializer_obj.save()
         else:
-            return Response(order_serializer_obj.errors)
+            return Response(
+                order_serializer_obj.errors,
+                status=status.HTTP_400_BAD_REQUEST)
 
         order_items = self.request.data['items']
 
