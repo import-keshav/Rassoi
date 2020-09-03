@@ -98,6 +98,7 @@ class CreateFoodPackage(APIView):
 
 
     def is_food_meal_valid(self, food_meals, food_package):
+        map_days = {}
         for food_meal in food_meals:
             food_meal_inst = food_models.FoodMeal.objects.filter(pk=food_meal).first()
             if not food_meal_inst:
@@ -110,6 +111,12 @@ class CreateFoodPackage(APIView):
                 "is_valid": False,
                 "message": "Food Meal doesn't belong to given shop"
             }
+            if food_meal_inst.day in map_days:
+                return {
+                "is_valid": False,
+                "message": "1 day can't have 2 Food Meals"
+            }
+            map_days[food_meal_inst.day] = 1
         return {
             "is_valid": True,
             "message": "Food Meal validated Successfully"
