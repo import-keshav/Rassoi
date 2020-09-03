@@ -9,6 +9,16 @@ FOOD_TYPE = (
     ('Dinner', 'Dinner'),
 )
 
+DAYS = (
+    ('Monday', 'Monday'),
+    ('Tuesday', 'Tuesday'),
+    ('Wednesday', 'Wednesday'),
+    ('Thursday', 'Thursday'),
+    ('Friday', 'Friday'),
+    ('Saturday', 'Saturday'),
+    ('Sunday', 'Sunday'),
+)
+
 
 class FoodMeal(models.Model):
     shop = models.ForeignKey(shop_models.Shop, on_delete=models.CASCADE, related_name="food_food_meal_shop", null=True, blank=True)
@@ -18,7 +28,7 @@ class FoodMeal(models.Model):
     is_approved = models.BooleanField(default=False, null=True, blank=True)
     is_available = models.BooleanField(default=False, null=True, blank=True)
     price = models.FloatField(null=True, blank=True, validators=[MinValueValidator(0)])
-
+    day =  models.TextField(choices=DAYS, null=True, blank=True)
 
     created = models.DateTimeField(auto_now_add=True, editable=False)
     last_updated = models.DateTimeField(auto_now=True, editable=False)
