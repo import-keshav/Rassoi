@@ -15,15 +15,15 @@ class ListFoodPackageMealSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class UpdateDeleteFoodPackageMealSerializer(serializers.ModelSerializer):
+class CreateFoodPackageMealSerializer(serializers.ModelSerializer):
     class Meta:
         model = food_package_models.FoodPackageMeal
         fields = '__all__'
 
 
-class CreateFoodPackageMealSerializer(serializers.ModelSerializer):
+class CreateFoodPackageSerializer(serializers.ModelSerializer):
     class Meta:
-        model = food_package_models.FoodPackageMeal
+        model = food_package_models.FoodPackage
         fields = '__all__'
 
 
@@ -38,18 +38,6 @@ class ListFoodPackageSerializer(serializers.ModelSerializer):
             data[package_meal.meal.day] = ListFoodPackageMealSerializer(package_meal).data
         return data
 
-    class Meta:
-        model = food_package_models.FoodPackage
-        fields = '__all__'
-
-
-class UpdateDeleteFoodPackageSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = food_package_models.FoodPackage
-        fields = '__all__'
-
-
-class CreateFoodPackageSerializer(serializers.ModelSerializer):
     class Meta:
         model = food_package_models.FoodPackage
         fields = '__all__'

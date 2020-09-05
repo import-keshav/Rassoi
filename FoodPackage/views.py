@@ -17,36 +17,6 @@ class ListClientFoodPackage(generics.ListAPIView):
         return food_package_models.FoodPackage.objects.filter(client__pk=self.kwargs['pk'])
 
 
-class ListShopFoodPackage(generics.ListAPIView):
-    renderer_classes = [JSONRenderer]
-    serializer_class = food_package_serializer.ListFoodPackageSerializer
-
-    def get_queryset(self):
-        return food_package_models.FoodPackage.objects.filter(shop__pk=self.kwargs['pk'])
-
-
-class UpdateDeleteFoodPackage(generics.RetrieveUpdateDestroyAPIView):
-    renderer_classes = [JSONRenderer]
-    serializer_class = food_package_serializer.UpdateDeleteFoodPackageSerializer
-    queryset = food_package_models.FoodPackage.objects.all()
-
-
-class UpdateDeleteFoodPackageMeal(generics.RetrieveUpdateDestroyAPIView):
-    renderer_classes = [JSONRenderer]
-    serializer_class = food_package_serializer.UpdateDeleteFoodPackageMealSerializer
-    queryset = food_package_models.FoodPackageMeal.objects.all()
-
-
-# class CreateFoodPackage(generics.CreateAPIView):
-#     renderer_classes = [JSONRenderer]
-#     serializer_class = food_package_serializer.CreateFoodPackageSerializer
-
-
-class CreateFoodPackageMeal(generics.CreateAPIView):
-    renderer_classes = [JSONRenderer]
-    serializer_class = food_package_serializer.CreateFoodPackageMealSerializer
-
-
 class CreateFoodPackage(APIView):
     def post(self, request):
         request_data_validation = self.is_request_data_valid(self.request.data)
@@ -83,10 +53,11 @@ class CreateFoodPackage(APIView):
                 food_package_meal_serializer_obj = food_package_serializer.CreateFoodPackageMealSerializer(
                     data = {
                         "food_package":food_package_serializer_obj.data['id'],
-                        "food_meal": food_meal
+                        "meal": food_meal
                 })
                 if food_package_meal_serializer_obj.is_valid():
                     food_package_meal_serializer_obj.save()
+                    print(food_package_meal_serializer_obj.data["meal"])
             return Response({
                 'message': 'Food Package created Successfully',
                 "id": food_package_serializer_obj.data['id']
@@ -147,3 +118,13 @@ class CreateFoodPackage(APIView):
             "is_valid": True,
             "message": "Data validated Successfully"
         }
+
+
+class GetFoodPackageOnDay(generics.ListAPIView):
+    renderer_classes = [JSONRenderer]
+    serializer_class = food_package_serializer.ListFoodPackageSerializer
+
+    def get_queryset(self):
+        food_packages = food_package_models.FoodPackageMeal.objects.filter(
+            meal__day=self.kwargs['day'], meal__food_type=self.kwargs['type'])
+        return [food_package.food_package for food_package in food_packages]
