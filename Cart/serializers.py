@@ -6,6 +6,7 @@ from . import models as cart_models
 from Client import serializers as client_serializer
 from Fruit import serializers as fruit_serializer
 from Food import serializers as food_serializer
+from FoodPackage import serializers as food_package_serializer
 from Grocery import serializers as grocery_serializer
 from Vegetable import serializers as vegetable_serializer
 
@@ -15,10 +16,11 @@ class CreateClientFruitCartSerializer(serializers.ModelSerializer):
         model = cart_models.ClientFruitCart
         fields = '__all__'
     def validate(self, data):
-        must_keys = ['client', 'shop', 'fruit', 'num_of_items']
+        must_keys = ['client', 'shop', 'fruit', 'fruit_price', 'num_of_items']
         for key in must_keys:
             if not key in data:
                 raise forms.ValidationError('Include ' + key + ' in data')
+        data['price'] = data['fruit_price'].price * data['num_of_items']
         return data
 
 
@@ -42,10 +44,11 @@ class CreateClientVegetableCartSerializer(serializers.ModelSerializer):
         model = cart_models.ClientVegetableCart
         fields = '__all__'
     def validate(self, data):
-        must_keys = ['client', 'shop', 'vegetable', 'num_of_items']
+        must_keys = ['client', 'shop', 'vegetable', 'num_of_items', 'vegetable_price']
         for key in must_keys:
             if not key in data:
                 raise forms.ValidationError('Include ' + key + ' in data')
+        data['price'] = data['vegetable_price'].price * data['num_of_items']
         return data
 
 
@@ -73,6 +76,7 @@ class CreateClientGroceryCartSerializer(serializers.ModelSerializer):
         for key in must_keys:
             if not key in data:
                 raise forms.ValidationError('Include ' + key + ' in data')
+        data['price'] = data['grocery_price'].price * data['num_of_items']
         return data
 
 
@@ -100,6 +104,7 @@ class CreateClientFoodMealCartSerializer(serializers.ModelSerializer):
         for key in must_keys:
             if not key in data:
                 raise forms.ValidationError('Include ' + key + ' in data')
+        data['price'] = data['food_meal'].price * data['num_of_items']
         return data
 
 
@@ -114,4 +119,31 @@ class ListClientFoodMealCartSerializer(serializers.ModelSerializer):
 class UpdateDeleteClientFoodMealCartSerializer(serializers.ModelSerializer):
     class Meta:
         model = cart_models.ClientFoodMealCart
+        fields = '__all__'
+
+
+class CreateClientFoodPackageCartSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = cart_models.ClientFoodPackageCart
+        fields = '__all__'
+    def validate(self, data):
+        must_keys = ['client', 'shop', 'food_package']
+        for key in must_keys:
+            if not key in data:
+                raise forms.ValidationError('Include ' + key + ' in data')
+        cart_models.ClientFoodPackageCart.objects.filter(client=data['client']).delete()
+        return data
+
+
+class ListClientFoodPackageCartSerializer(serializers.ModelSerializer):
+    food_package = food_package_serializer.ListFoodPackageSerializer()
+    client = client_serializer.GetClientInfoSerializer()
+    class Meta:
+        model = cart_models.ClientFoodPackageCart
+        fields = '__all__'
+
+
+class UpdateDeleteClientFoodPackageCartSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = cart_models.ClientFoodPackageCart
         fields = '__all__'

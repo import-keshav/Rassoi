@@ -172,3 +172,22 @@ class GetClientFoodMealCartTotalPrice(APIView):
             cart_item.price = price
             cart_item.save()
         return Response({'total_price': total_price}, status=status.HTTP_200_OK)
+
+
+class AddItemInClientFoodPackageCart(generics.CreateAPIView):
+    renderer_classes = [JSONRenderer]
+    serializer_class = cart_serializer.CreateClientFoodPackageCartSerializer
+
+
+class ListItemInClientFoodPackageCart(generics.ListAPIView):
+    renderer_classes = [JSONRenderer]
+    serializer_class = cart_serializer.ListClientFoodPackageCartSerializer
+
+    def get_queryset(self):
+        return cart_models.ClientFoodPackageCart.objects.filter(client__pk=self.kwargs['pk'])
+
+
+class UpdateDeleteItemInClientFoodPackageCart(generics.RetrieveUpdateDestroyAPIView):
+    renderer_classes = [JSONRenderer]
+    serializer_class = cart_serializer.UpdateDeleteClientFoodPackageCartSerializer
+    queryset = cart_models.ClientFoodPackageCart.objects.all()

@@ -5,6 +5,7 @@ from django.core.validators import MinValueValidator
 from Client import models as cliet_models
 from Fruit import models as fruit_models
 from Food import models as food_models
+from FoodPackage import models as food_package_models
 from Grocery import models as grocery_models
 from Vegetable import models as vegetable_models
 from Shop import models as shop_models
@@ -71,3 +72,17 @@ class ClientFoodMealCart(models.Model):
     class Meta:
         verbose_name = 'Client Food Meal Cart'
         verbose_name_plural = 'Client Food Meal Carts'
+
+
+class ClientFoodPackageCart(models.Model):
+    client = models.ForeignKey(cliet_models.Client, on_delete=models.CASCADE, related_name="cart_client_food_package_cart_client", null=True, blank=True)
+    shop = models.ForeignKey(shop_models.Shop, on_delete=models.CASCADE, related_name="cart_client_food_package_cart_shop", null=True, blank=True)
+    food_package = models.ForeignKey(food_package_models.FoodPackage, on_delete=models.CASCADE, related_name="cart_client_food_package_cart_food_package", null=True, blank=True)
+    price = models.FloatField(null=True, blank=True, validators=[MinValueValidator(0)])
+
+    created = models.DateTimeField(auto_now_add=True, editable=False)
+    last_updated = models.DateTimeField(auto_now=True, editable=False)
+
+    class Meta:
+        verbose_name = 'Client Food Package Cart'
+        verbose_name_plural = 'Client Food Package Carts'

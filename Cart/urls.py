@@ -27,4 +27,8 @@ urlpatterns = [
 	path('update-delete-client-food-meal-cart/<int:pk>', views.UpdateDeleteItemInClientFoodMealCart.as_view()),
 	path('get-client-food-meal-cart-item-price/<int:pk>', views.GetPriceOfFoodMealCartItem.as_view()),
 	path('get-client-total-food-meal-cart-price/<int:pk>', views.GetClientFoodMealCartTotalPrice.as_view()),
+
+	path('add-food-package-in-client-cart', views.AddItemInClientFoodPackageCart.as_view()),
+	path('get-client-food-package-cart/<int:pk>', views.ListItemInClientClientFoodMealCartCart.as_view()),
+	path('update-delete-client-food-package-cart/<int:pk>', views.UpdateDeleteItemInClientFoodPackageCart.as_view()),
 ]
