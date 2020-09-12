@@ -27,6 +27,12 @@ class CreateFoodPackageSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class ListFoodPackageSerializerOnly(serializers.ModelSerializer):
+    class Meta:
+        model = food_package_models.FoodPackage
+        fields = '__all__'
+
+
 class ListFoodPackageSerializer(serializers.ModelSerializer):
     client = client_serializer.GetClientInfoSerializer()
     shop = shop_serializer.ListShop()

@@ -12,6 +12,7 @@ from Shop import models as shop_models
 from Client import serializers as client_serializer
 from Fruit import serializers as fruit_serializer
 from Food import serializers as food_serializer
+from FoodPackage import serializers as food_package_serializer
 from Grocery import serializers as grocery_serializer
 from Promocode import serializers as promocode_serializer
 from Shop import serializers as shop_serializer
@@ -163,6 +164,16 @@ class UpdateOrderSerializer(serializers.ModelSerializer):
 
 
 class CreateFoodPackageEachMealOrderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = order_models.FoodPackageEachMealOrder
+        fields = '__all__'
+
+
+class GetFoodPackageEachMealOrderSerializer(serializers.ModelSerializer):
+    order = ListOngoingShopOrderSerializer()
+    food_package = food_package_serializer.ListFoodPackageSerializerOnly()
+    food_meal = food_serializer.ListFoodMealSerializer()
+
     class Meta:
         model = order_models.FoodPackageEachMealOrder
         fields = '__all__'

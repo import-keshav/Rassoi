@@ -187,3 +187,13 @@ class OrderCompleted(APIView):
         order.is_delivered = True
         order.save()
         return Response({'message': 'Order Completed Successfully'}, status=status.HTTP_200_OK)
+
+
+class GetTodayFoodPackageOrder(generics.ListAPIView):
+    renderer_classes = [JSONRenderer]
+    serializer_class = order_serializer.GetFoodPackageEachMealOrderSerializer
+
+    def get_queryset(self):
+        return order_models.FoodPackageEachMealOrder.objects.filter(
+            food_meal__food_type=self.kwargs['type'],
+            date=self.kwargs['date']).order_by('-created')
