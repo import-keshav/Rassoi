@@ -57,11 +57,7 @@ class CreateFoodPackage(APIView):
                 })
                 if food_package_meal_serializer_obj.is_valid():
                     food_package_meal_serializer_obj.save()
-                    print(food_package_meal_serializer_obj.data["meal"])
-            return Response({
-                'message': 'Food Package created Successfully',
-                "id": food_package_serializer_obj.data['id']
-            },)
+            return Response(food_package_serializer_obj.data)
         else:
             return Response(
                 food_package_serializer.errors,
@@ -70,6 +66,11 @@ class CreateFoodPackage(APIView):
 
     def is_food_meal_valid(self, food_meals, food_package):
         map_days = {}
+        # if len(food_meals) < 7 or len(food_meals) >7:
+        #     return {
+        #         "is_valid": False,
+        #         "message": "There should be total 7 meals, not more not less"
+        #     }
         for food_meal in food_meals:
             food_meal_inst = food_models.FoodMeal.objects.filter(pk=food_meal).first()
             if not food_meal_inst:

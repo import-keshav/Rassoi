@@ -2,6 +2,7 @@ from django import forms
 from rest_framework import serializers
 
 from . import models as cart_models
+from FoodPackage import models as food_package_models
 
 from Client import serializers as client_serializer
 from Fruit import serializers as fruit_serializer
@@ -132,12 +133,25 @@ class CreateClientFoodPackageCartSerializer(serializers.ModelSerializer):
             if not key in data:
                 raise forms.ValidationError('Include ' + key + ' in data')
         cart_models.ClientFoodPackageCart.objects.filter(client=data['client']).delete()
+        food_package_meals = food_package_models.FoodPackageMeal.objects.filter(food_package=data['food_package'])
+        price = 0
+        for food_package_meal in food_package_meals:
+            price += food_package_meal.meal.price
+        data['price'] = price
         return data
 
 
 class ListClientFoodPackageCartSerializer(serializers.ModelSerializer):
     food_package = food_package_serializer.ListFoodPackageSerializer()
     client = client_serializer.GetClientInfoSerializer()
+    price = serializers.SerializerMethodField()
+
+    def get_price(self, obj):
+        food_package_meals = food_package_models.FoodPackageMeal.objects.filter(food_package=obj.food_package)
+        price = 0
+        for food_package_meal in food_package_meals:
+            price += food_package_meal.meal.price
+        return price
     class Meta:
         model = cart_models.ClientFoodPackageCart
         fields = '__all__'
