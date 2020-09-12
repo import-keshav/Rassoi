@@ -5,10 +5,17 @@ from Client import models as cliet_models
 from Food import models as food_models
 from Shop import models as shop_models
 
+FOOD_TYPE = (
+    ('Breakfast', 'Breakfast'),
+    ('Lunch', 'Lunch'),
+    ('Dinner', 'Dinner'),
+)
+
 
 class FoodPackage(models.Model):
     client = models.ForeignKey(cliet_models.Client, on_delete=models.CASCADE, related_name="food_package_food_package_client", null=True, blank=True)
     shop = models.ForeignKey(shop_models.Shop, on_delete=models.CASCADE, related_name="food_package_food_package_shop", null=True, blank=True)
+    food_type = models.TextField(choices=FOOD_TYPE, null=True, blank=True)
     start_date = models.DateField(null=True, blank=True)
     end_date = models.DateField(null=True, blank=True)
 
