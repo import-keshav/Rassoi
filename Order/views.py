@@ -37,6 +37,8 @@ class CreateOrder(APIView):
 
         order_items = self.request.data['items']
 
+###############       Create Food Package Each Meal Order          ###############
+
         if order_dict['order_type'] == 'FoodPackage':
             if len(order_items) <1 or not 'food_package' in order_items[0]:
                 return Response({
@@ -60,9 +62,10 @@ class CreateOrder(APIView):
                 }
                 serializer_obj = order_serializer.CreateFoodPackageEachMealOrderSerializer(data=data)
                 if serializer_obj.is_valid():
-                    print("Keshav")
                     serializer_obj.save()
             return Response({'message': 'Orders Created Successfully', 'id': order_serializer_obj.data['id']})
+###########################################################################
+
 
 
 ###############       Pre Validation of Order Items          ###############
@@ -196,4 +199,4 @@ class GetTodayFoodPackageOrder(generics.ListAPIView):
     def get_queryset(self):
         return order_models.FoodPackageEachMealOrder.objects.filter(
             food_meal__food_type=self.kwargs['type'],
-            date=self.kwargs['date']).order_by('-created')
+            date=self.kwargs['date']).order_by('-created').exclude(status='food_package')
