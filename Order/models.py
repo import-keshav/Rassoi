@@ -5,6 +5,7 @@ from django.core.validators import MinValueValidator
 from Client import models as cliet_models
 from Fruit import models as fruit_models
 from Food import models as food_models
+from FoodPackage import models as food_package_models
 from Grocery import models as grocery_models
 from Vegetable import models as vegetable_models
 from Promocode import models as promocode_models
@@ -13,14 +14,16 @@ from Shop import models as shop_models
 order_status = (
     ("packaging", "packaging"),
     ("on_way", "on_way"),
-    ("delivered", "delivered")
+    ("delivered", "delivered"),
+    ("food_package", "food_package")
 )
 
 order_type = (
     ("Food", "Food"),
     ("Fruit", "Fruit"),
     ("Vegetable", "Vegetable"),
-    ("Grocery", "Grocery")
+    ("Grocery", "Grocery"),
+    ("FoodPackage", "FoodPackage")
 )
 
 payment_choices = (
@@ -107,3 +110,18 @@ class OnGoingOrders(models.Model):
     class Meta:
         verbose_name = 'Ongoing Order'
         verbose_name_plural = 'Ongoing Orders'
+
+
+class FoodPackageEachMealOrder(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name="order_food_package_meal_order_order", null=True, blank=True)
+    food_package = models.ForeignKey(food_package_models.FoodPackage, on_delete=models.CASCADE, related_name="order_food_package_meal_order_food_package", null=True, blank=True)
+    food_meal = models.ForeignKey(food_models.FoodMeal, on_delete=models.CASCADE, related_name="order_food_package_meal_order_food_meal", null=True, blank=True)
+    status = models.TextField(choices=order_status, null=True, blank=True)
+    delivered_time = models.DateTimeField(null=True, blank=True)
+    date = models.DateField(null=True, blank=True)
+
+    created = models.DateTimeField(auto_now_add=True, editable=False)
+    last_updated = models.DateTimeField(auto_now=True, editable=False)
+    class Meta:
+        verbose_name = 'Food Package Each Meal Order'
+        verbose_name_plural = 'Food Package Each Meal Orders'

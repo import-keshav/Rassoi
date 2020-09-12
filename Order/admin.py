@@ -41,3 +41,8 @@ class OrderAdmin(admin.ModelAdmin):
 @admin.register(OnGoingOrders)
 class OnGoingOrdersAdmin(admin.ModelAdmin):
 	list_display = [field.name for field in OnGoingOrders._meta.fields]
+
+
+@admin.register(FoodPackageEachMealOrder)
+class FoodPackageEachMealOrderAdmin(admin.ModelAdmin):
+	list_display = [field.name for field in FoodPackageEachMealOrder._meta.fields]

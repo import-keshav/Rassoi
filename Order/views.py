@@ -1,3 +1,5 @@
+import datetime
+
 from django import forms
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.response import Response
@@ -9,6 +11,13 @@ from rest_framework import generics, status, filters
 from . import models as order_models
 from . import serializers as order_serializer
 from Cart import models as cart_models
+from FoodPackage import models as food_package_models
+
+
+week_days = [
+    'Monday', 'Tuesday', 'Wednesday', 'Thursday',
+    'Friday', 'Saturday','Sunday'
+]
 
 class CreateOrder(APIView):
     def post(self, request):
@@ -27,6 +36,33 @@ class CreateOrder(APIView):
                 status=status.HTTP_400_BAD_REQUEST)
 
         order_items = self.request.data['items']
+
+        if order_dict['order_type'] == 'FoodPackage':
+            if len(order_items) <1 or not 'food_package' in order_items[0]:
+                return Response({
+                    'message': 'Include Food Package Id in order item'},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+
+            food_package = food_package_models.FoodPackage.objects.filter(pk=order_items[0]['food_package']).first()
+            food_package_meals = food_package_models.FoodPackageMeal.objects.filter(food_package=food_package)
+            food_meal_days = {food_package_meal.meal.day: food_package_meal.meal for food_package_meal in food_package_meals}
+
+            for i in range(1, (food_package.end_date-food_package.start_date).days+1):
+                today_date = food_package.start_date + datetime.timedelta(days=i)
+                meal = food_meal_days[week_days[today_date.weekday()]]
+                data = {
+                    'order': order_serializer_obj.data['id'],
+                    'food_package': order_items[0]['food_package'],
+                    'food_meal': meal.pk,
+                    'status': 'food_package',
+                    'date': today_date.strftime(format="%Y-%m-%d")
+                }
+                serializer_obj = order_serializer.CreateFoodPackageEachMealOrderSerializer(data=data)
+                if serializer_obj.is_valid():
+                    print("Keshav")
+                    serializer_obj.save()
+            return Response({'message': 'Orders Created Successfully', 'id': order_serializer_obj.data['id']})
 
 
 ###############       Pre Validation of Order Items          ###############
