@@ -88,11 +88,11 @@ class CreateFoodPackage(APIView):
                 "is_valid": False,
                 "message": "1 day can't have 2 Food Meals"
             }
-            if food_meal_inst.food_type != food_package['food_package']:
+            if food_meal_inst.food_type != food_package['food_type']:
                 return {
                     "is_valid": False,
                     "message": "Food Meal Type not equals Food Package Type"
-                }   
+                }
             map_days[food_meal_inst.day] = 1
         return {
             "is_valid": True,
@@ -113,7 +113,7 @@ class CreateFoodPackage(APIView):
         }
 
     def is_food_package_data_valid(self, package_dict):
-        must_keys = ['client', 'shop', 'start_date', 'num_of_weeks']
+        must_keys = ['client', 'shop', 'start_date', 'num_of_weeks','food_type']
         for key in must_keys:
             if not key in package_dict:
                 return {
