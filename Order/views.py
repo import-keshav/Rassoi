@@ -199,4 +199,15 @@ class GetTodayFoodPackageOrder(generics.ListAPIView):
     def get_queryset(self):
         return order_models.FoodPackageEachMealOrder.objects.filter(
             food_meal__food_type=self.kwargs['type'],
-            date=self.kwargs['date']).order_by('-created').exclude(status='food_package')
+            date=self.kwargs['date'],
+            order__shop__pk=self.kwargs['shop_id']).order_by('-created').exclude(status='food_package')
+
+
+class GetClientPackageOrder(generics.ListAPIView):
+    renderer_classes = [JSONRenderer]
+    serializer_class = order_serializer.GetFoodPackageEachMealOrderSerializer
+
+    def get_queryset(self):
+        return order_models.FoodPackageEachMealOrder.objects.filter(
+            date=self.kwargs['date'],
+            order__client__pk=self.kwargs['client_id']).order_by('-created')
