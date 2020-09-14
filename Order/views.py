@@ -57,7 +57,7 @@ class CreateOrder(APIView):
                     'order': order_serializer_obj.data['id'],
                     'food_package': order_items[0]['food_package'],
                     'food_meal': meal.pk,
-                    'status': 'food_package',
+                    'status': 'upcoming',
                     'date': today_date.strftime(format="%Y-%m-%d")
                 })
                 if serializer_obj.is_valid():
@@ -214,3 +214,9 @@ class GetClientPackageOrder(generics.ListAPIView):
         return order_models.FoodPackageEachMealOrder.objects.filter(
             date=self.kwargs['date'],
             order__client__pk=self.kwargs['client_id']).order_by('-created')
+
+
+class UpdateClientPackageOrder(generics.UpdateAPIView):
+    renderer_classes = [JSONRenderer]
+    serializer_class = order_serializer.CreateFoodPackageEachMealOrderSerializer
+    queryset = order_models.FoodPackageEachMealOrder.objects.all()

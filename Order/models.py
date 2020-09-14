@@ -12,6 +12,7 @@ from Promocode import models as promocode_models
 from Shop import models as shop_models
 
 order_status = (
+    ("upcoming","upcoming"),
     ("packaging", "packaging"),
     ("on_way", "on_way"),
     ("delivered", "delivered"),
