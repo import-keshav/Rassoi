@@ -50,7 +50,7 @@ class CreateOrder(APIView):
             food_package_meals = food_package_models.FoodPackageMeal.objects.filter(food_package=food_package)
             food_meal_days = {food_package_meal.meal.day: food_package_meal.meal for food_package_meal in food_package_meals}
 
-            for i in range(1, (food_package.end_date-food_package.start_date).days+1):
+            for i in range((food_package.end_date-food_package.start_date).days+1):
                 today_date = food_package.start_date + datetime.timedelta(days=i)
                 meal = food_meal_days[week_days[today_date.weekday()]]
                 serializer_obj = order_serializer.CreateFoodPackageEachMealOrderSerializer(data={
