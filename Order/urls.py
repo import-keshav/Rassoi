@@ -17,5 +17,5 @@ urlpatterns = [
 
 	path('get-today-package-order/<str:type>/<str:date>/<int:shop_id>',  views.GetTodayFoodPackageOrder.as_view()),
 	path('get-client-package-order/<str:date>/<int:client_id>',  views.GetClientPackageOrder.as_view()),
-	path('update-food-package-order/<int:pk>',  views.UpdateClientPackageOrder.as_view())
+	path('update-daily-food-package-order/<int:pk>',  views.UpdateClientDailyPackageOrder.as_view())
 ]

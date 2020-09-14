@@ -216,7 +216,7 @@ class GetClientPackageOrder(generics.ListAPIView):
             order__client__pk=self.kwargs['client_id']).order_by('-created')
 
 
-class UpdateClientPackageOrder(generics.UpdateAPIView):
+class UpdateClientDailyPackageOrder(generics.UpdateAPIView):
     renderer_classes = [JSONRenderer]
     serializer_class = order_serializer.CreateFoodPackageEachMealOrderSerializer
     queryset = order_models.FoodPackageEachMealOrder.objects.all()
