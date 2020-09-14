@@ -36,5 +36,3 @@ class FruitPrice(models.Model):
     class Meta:
         verbose_name = 'Fruit Price'
         verbose_name_plural = 'Fruit Price'
-    def __str__(self):
-        return self.fruit.name

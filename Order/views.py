@@ -132,7 +132,9 @@ class ListShopPastOrder(generics.ListAPIView):
     serializer_class = order_serializer.ListOngoingShopOrderSerializer
 
     def get_queryset(self):
-        return order_models.Order.objects.filter(shop__pk=self.kwargs['pk']).order_by('-created')
+        return order_models.Order.objects.filter(
+            shop__pk=self.kwargs['pk'],
+            status="delivered").order_by('-created')
 
 
 class ListSpecificOngoingShopOrder(generics.ListAPIView):
@@ -166,7 +168,7 @@ class ListClientPastOrder(generics.ListAPIView):
     serializer_class = order_serializer.ListOngoingShopOrderSerializer
 
     def get_queryset(self):
-        return order_models.Order.objects.filter(client__pk=self.kwargs['pk']).order_by('-created')
+        return order_models.Order.objects.filter(client__pk=self.kwargs['pk']).order_by('-created').exclude(order_type="FoodPackage")
 
 
 class UpdateOrder(generics.UpdateAPIView):
