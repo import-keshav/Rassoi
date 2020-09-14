@@ -53,16 +53,17 @@ class CreateOrder(APIView):
             for i in range(1, (food_package.end_date-food_package.start_date).days+1):
                 today_date = food_package.start_date + datetime.timedelta(days=i)
                 meal = food_meal_days[week_days[today_date.weekday()]]
-                data = {
+                serializer_obj = order_serializer.CreateFoodPackageEachMealOrderSerializer(data={
                     'order': order_serializer_obj.data['id'],
                     'food_package': order_items[0]['food_package'],
                     'food_meal': meal.pk,
                     'status': 'food_package',
                     'date': today_date.strftime(format="%Y-%m-%d")
-                }
-                serializer_obj = order_serializer.CreateFoodPackageEachMealOrderSerializer(data=data)
+                })
                 if serializer_obj.is_valid():
                     serializer_obj.save()
+                else:
+                    return Response(serializer_obj.errors, status=status.HTTP_400_BAD_REQUEST)
             return Response({'message': 'Orders Created Successfully', 'id': order_serializer_obj.data['id']})
 ###########################################################################
 
@@ -168,7 +169,7 @@ class ListClientPastOrder(generics.ListAPIView):
     serializer_class = order_serializer.ListOngoingShopOrderSerializer
 
     def get_queryset(self):
-        return order_models.Order.objects.filter(client__pk=self.kwargs['pk']).order_by('-created').exclude(order_type="FoodPackage")
+        return order_models.Order.objects.filter(client__pk=self.kwargs['pk']).order_by('-created')
 
 
 class UpdateOrder(generics.UpdateAPIView):
