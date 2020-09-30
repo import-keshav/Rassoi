@@ -35,7 +35,7 @@ class Shop(models.Model):
         verbose_name = 'Shop'
         verbose_name_plural = 'Shops'
     def __str__(self):
-        return self.address
+        return 'Shop_' + str(self.pk)
     def save(self):
         self.password = hash_password(self.password)
         super(Shop, self).save()
@@ -53,4 +53,5 @@ class Slots(models.Model):
     class Meta:
         verbose_name = 'Slot'
         verbose_name_plural = 'Slots'
-
+    def __str__(self):
+        return 'Shop_' + str(self.shop.pk) + '_' + self.category

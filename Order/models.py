@@ -51,7 +51,8 @@ class Order(models.Model):
     class Meta:
         verbose_name = 'Order'
         verbose_name_plural = 'Order'
-
+    def __str__(self):
+        return 'Order_' + str(self.pk)
 
 class OrderGrocery(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name="order_order_grocery_order", null=True, blank=True)

@@ -1,8 +1,15 @@
 from django.contrib import admin
 
 from .models import (
-	Driver, DriverNotification
+	Driver,
+	DriverNotification,
+	DriverSlotsAssigned
 )
+
+class DriverSlotsAssignedTabularInline(admin.TabularInline):
+	model = DriverSlotsAssigned
+	extra = 1
+
 
 @admin.register(Driver)
 class DriverAdmin(admin.ModelAdmin):
@@ -10,6 +17,7 @@ class DriverAdmin(admin.ModelAdmin):
 	search_fields = ('user__name', 'user__email', 'user__mobile', 'user__id',
 		'shop_assigned', 'is_free', 'id')
 	list_filter = ('shop_assigned', 'is_free')
+	inlines = (DriverSlotsAssignedTabularInline,)
 
 
 @admin.register(DriverNotification)

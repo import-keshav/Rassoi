@@ -18,6 +18,15 @@ class Driver(models.Model):
         return self.user.name
 
 
+class DriverSlotsAssigned(models.Model):
+    driver = models.ForeignKey(Driver, on_delete=models.CASCADE, related_name="driver_driver_slot_driver", null=True, blank=True)
+    slot = models.ForeignKey(shop_models.Slots, on_delete=models.CASCADE, related_name="driver_driver_slot_slot", null=True, blank=True)
+
+    class Meta:
+        verbose_name = 'Driver Slot Assigned'
+        verbose_name_plural = 'Driver Slots Assigned'
+
+
 class DriverNotification(models.Model):
     driver = models.ForeignKey(Driver, on_delete=models.CASCADE, related_name="driver_driver_notification_client", null=True, blank=True)
     date = models.DateField(null=True, blank=True)

@@ -27,6 +27,8 @@ class CreateOrder(APIView):
             raise forms.ValidationError('Include items in data')
 
         order_dict = self.request.data['order']
+        if order_dict['order_type'] == 'FoodPackage':
+            order_dict['is_delivered'] = True
         order_serializer_obj = order_serializer.CreateOrderSerializer(data=order_dict)
         if order_serializer_obj.is_valid():
             order_serializer_obj.save()
