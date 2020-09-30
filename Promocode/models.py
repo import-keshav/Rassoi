@@ -7,7 +7,8 @@ ITEMS = (
     ('Grocery', 'Grocery'),
     ('Fruit', 'Fruit'),
     ('Vegetable', 'Vegetable'),
-    ('Food', 'Food')
+    ('Food', 'Food'),
+    ("FoodPackage", "FoodPackage")
 )
 
 
