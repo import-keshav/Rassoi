@@ -26,17 +26,16 @@ class GetTodaysOrders(generics.ListAPIView):
     serializer_class = order_serializer.ListOngoingShopOrderSerializer
 
     def get_queryset(self):
-        driver_slots = self.get_driver_slots(self.kwargs['pk'])
         driver = driver_models.Driver.objects.get(pk=self.kwargs['pk'])
-        ongoing_orders = order_models.OnGoingOrders.objects.filter(shop=driver.shop_assigned, order__slot=driver_slots)
+        driver_slots = self.get_driver_slots(driver)
+        ongoing_orders = order_models.OnGoingOrders.objects.none()
+        for slot in driver_slots:
+            ongoing_orders|= order_models.OnGoingOrders.objects.filter(shop=driver.shop_assigned, order__slot=slot)
         return [order.order for order in ongoing_orders]
 
-    def get_driver_slots(self, driver_id):
-        slots = shop_models.Slots.objects.none()
-        driver_slots = driver_models.DriverSlotsAssigned.objects.filter(driver__pk=driver_id)
-        for slot in driver_slots:
-            slots |= slot.slot
-        return slots
+    def get_driver_slots(self, driver):
+        driver_slots = driver_models.DriverSlotsAssigned.objects.filter(driver=driver)
+        return [slot.slot for slot in driver_slots]
 
 
 class GetTodaysFoodPackageOrders(generics.ListAPIView):
