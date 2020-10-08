@@ -51,7 +51,8 @@ class RegisterUser(generics.CreateAPIView):
                     "message": key + " is missing"
                 }, status=status.HTTP_400_BAD_REQUEST)
 
-        new_user = user_models.User.objects.filter(mobile=data['mobile']).first()
+        new_user = (user_models.User.objects.filter(mobile=data['mobile']).first()
+            | user_models.User.objects.filter(email=data['email']).first())
         if not new_user:
             user = user_models.User(
                 name=data['name'],
@@ -76,14 +77,14 @@ class RegisterUser(generics.CreateAPIView):
 class LoginView(APIView):
     def post(self, request):
         data = self.request.data
-        valid_keys = ['mobile','password','latitude', 'longitude']
+        valid_keys = ['email','password','latitude', 'longitude']
         for key in valid_keys:
             if not key in data:
                 return Response({
                     "message": key + " is missing"
                 }, status=status.HTTP_400_BAD_REQUEST)
 
-        user = user_models.User.objects.filter(mobile=data['mobile']).first()
+        user = user_models.User.objects.filter(email=data['email']).first()
         if user:
             if verify_password(user.password, data['password']):
                 user.auth_token = ""
