@@ -21,6 +21,14 @@ class ListDrivers(generics.ListAPIView):
         return driver_models.Driver.objects.filter(shop_assigned__pk=self.kwargs['pk'])
 
 
+class GetSpecificDriver(generics.ListAPIView):
+    renderer_classes = [JSONRenderer]
+    serializer_class = driver_serializer.ListDriverSerializer
+
+    def get_queryset(self):
+        return driver_models.Driver.objects.filter(pk=self.kwargs['pk'])
+
+
 class GetTodaysOrders(generics.ListAPIView):
     renderer_classes = [JSONRenderer]
     serializer_class = order_serializer.ListOngoingShopOrderSerializer

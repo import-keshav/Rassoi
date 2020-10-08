@@ -139,7 +139,9 @@ class LoginView(APIView):
       
         c = 2 * asin(sqrt(a))  
         r = 6371
-        return(c * r) 
+        return(c * r)
+
+
 class CheckMobileNumber(APIView):
     def post(self, request):
         if not 'mobile_number' in self.request.data:
