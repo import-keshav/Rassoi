@@ -7,3 +7,9 @@ class GetUserInfoSerializer(serializers.ModelSerializer):
     class Meta:
         model = user_models.User
         fields = ['name', 'email', 'mobile', 'avatar']
+
+
+class CreateUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = user_models.User
+        fields = '__all__'

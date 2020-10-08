@@ -34,7 +34,7 @@ urlpatterns = [
     path('promocode/', include('Promocode.urls')),
     path('shop/', include('Shop.urls')),
     path('vegetable/', include('Vegetable.urls')),
-
+    path('user/', include('User.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
