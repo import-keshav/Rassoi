@@ -10,4 +10,6 @@ urlpatterns = [
 
 	path('send-otp', views.SendOTP.as_view()),
 	path('verify-otp', views.VerifyOTP.as_view()),
+
+	path('change-user-password', views.ChangeUserPassword.as_view()),
 ]
