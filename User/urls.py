@@ -12,4 +12,7 @@ urlpatterns = [
 	path('verify-otp', views.VerifyOTP.as_view()),
 
 	path('change-user-password', views.ChangeUserPassword.as_view()),
+
+	path('driver-login', views.DriverLogin.as_view()),
+
 ]

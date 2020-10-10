@@ -17,6 +17,8 @@ from . import models as user_models
 from . import serializers as user_serializer
 from Client import models as client_models
 from Client import serializers as client_serializer
+from Driver import models as driver_models
+from Driver import serializers as driver_serializer
 from Shop import models as shop_models
 from Shop import serializers as shop_serializer
 
@@ -204,3 +206,40 @@ class ChangeUserPassword(APIView):
             user.save()
             return Response({"message": "Password changed Succesfully"})
         return Response({"message": "Invalid Old Password"})
+
+
+class DriverLogin(APIView):
+    def post(self, request):
+        data = self.request.data
+        valid_keys = ['mobile','password']
+        for key in valid_keys:
+            if not key in data:
+                return Response({
+                    "message": key + " is missing"
+                }, status=status.HTTP_400_BAD_REQUEST)
+
+        user = user_models.User.objects.filter(mobile=data['mobile']).first()
+        if user:
+            if verify_password(user.password, data['password']):
+                driver = driver_models.Driver.objects.filter(user=user).first()
+                if not driver:
+                    return Response({
+                        "message": "No Driver Exist"
+                    }, status=status.HTTP_400_BAD_REQUEST)
+
+                user.auth_token = ""
+                user.save()
+                jwt_token = create_jwt(user)
+                user.auth_token = jwt_token
+                user.save()
+                return Response({
+                    'message': 'Login Succesfully',
+                    'token':jwt_token,
+                    'driver': driver_serializer.ListDriverSerializer(driver).data,
+                }, status=status.HTTP_200_OK)
+            else:
+                return Response(
+                    {'message': 'Invalid password'}, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response(
+                    {'message': 'User not exist with this mobile number'}, status=status.HTTP_400_BAD_REQUEST)
