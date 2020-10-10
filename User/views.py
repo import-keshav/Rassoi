@@ -2,7 +2,6 @@ import hashlib
 import binascii
 import jwt
 import random
-from math import radians, cos, sin, asin, sqrt 
 
 from django.conf import settings
 from twilio.rest import Client
