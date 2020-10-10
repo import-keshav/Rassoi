@@ -9,4 +9,7 @@ urlpatterns = [
 	path('get-shop-slots/<int:pk>', views.ListSlots.as_view()),
 	path('create-shop-slot', views.CreateSlot.as_view()),
 	path('update-delete-shop-slot/<int:pk>', views.UpdateDeleteSlot.as_view()),
+
+	path('get-nearest-shop', views.GetNearestShop.as_view()),
+
 ]

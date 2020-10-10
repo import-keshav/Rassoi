@@ -109,6 +109,7 @@ class OnGoingOrders(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name="orders_ongoing_order_order", null=True, blank=True)
     shop = models.ForeignKey(shop_models.Shop, on_delete=models.CASCADE, related_name="orders_ongoing_order_shop", null=True, blank=True)
 
+    created = models.DateField(auto_now_add=True, editable=False)
     class Meta:
         verbose_name = 'Ongoing Order'
         verbose_name_plural = 'Ongoing Orders'

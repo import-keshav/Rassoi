@@ -66,3 +66,48 @@ class ShopLogin(APIView):
                                       100000)
         pwdhash = binascii.hexlify(pwdhash).decode('ascii')
         return pwdhash == stored_password
+
+
+class GetNearestShop(APIView):
+    def post(self, request):
+        data = self.request.data
+        valid_keys = ['latitude', 'longitude']
+        for key in valid_keys:
+            if not key in data:
+                return Response({
+                    "message": key + " is missing"
+                }, status=status.HTTP_400_BAD_REQUEST)
+        return Response({
+            'nearest_shop': self.nearest_shop(data['latitude'], data['longitude'])
+        }, status=status.HTTP_200_OK)
+
+    def nearest_shop(self, latitude, longitude):
+        shops = shop_models.Shop.objects.all()
+        nearest_shop = None
+        min_distance = float('inf')
+        for shop in shops:
+            distance = self.distance(
+                float(latitude),
+                float(shop.latitude), 
+                float(longitude),
+                float(shop.longitude)
+            )
+            if distance<min_distance:
+                min_distance = distance
+                nearest_shop = shop
+        return shop_serializer.ListShop(nearest_shop).data
+
+
+    def distance(self, lat1, lat2, lon1, lon2): 
+        lon1 = radians(lon1) 
+        lon2 = radians(lon2) 
+        lat1 = radians(lat1) 
+        lat2 = radians(lat2) 
+           
+        dlon = lon2 - lon1  
+        dlat = lat2 - lat1 
+        a = sin(dlat / 2)**2 + cos(lat1) * cos(lat2) * sin(dlon / 2)**2
+      
+        c = 2 * asin(sqrt(a))  
+        r = 6371
+        return(c * r)

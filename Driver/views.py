@@ -38,7 +38,10 @@ class GetTodaysOrders(generics.ListAPIView):
         driver_slots = self.get_driver_slots(driver)
         ongoing_orders = order_models.OnGoingOrders.objects.none()
         for slot in driver_slots:
-            ongoing_orders|= order_models.OnGoingOrders.objects.filter(shop=driver.shop_assigned, order__slot=slot)
+            ongoing_orders|= order_models.OnGoingOrders.objects.filter(
+                shop=driver.shop_assigned,
+                order__slot=slot,
+                created=self.kwargs['date'])
         return [order.order for order in ongoing_orders]
 
     def get_driver_slots(self, driver):
@@ -55,7 +58,10 @@ class GetTodaysFoodPackageOrders(generics.ListAPIView):
         driver_slots = self.get_driver_slots(driver)
         food_package_meal_orders = order_models.FoodPackageEachMealOrder.objects.none()
         for slot in driver_slots:
-            food_package_meal_orders |= order_models.FoodPackageEachMealOrder.objects.filter(order__shop=driver.shop_assigned, order__slot=slot)
+            food_package_meal_orders |= order_models.FoodPackageEachMealOrder.objects.filter(
+                order__shop=driver.shop_assigned,
+                order__slot=slot,
+                date=self.kwargs['date'])
         return food_package_meal_orders
 
     def get_driver_slots(self, driver):

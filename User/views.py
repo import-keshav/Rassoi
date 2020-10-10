@@ -101,7 +101,6 @@ class LoginView(APIView):
                     'message': 'Login Succesfully',
                     'token':jwt_token,
                     'client': client_serializer.GetClientInfoSerializer(client).data,
-                    'nearest_shop': self.nearest_shop(data['latitude'], data['longitude'])
                 }, status=status.HTTP_200_OK)
             else:
                 return Response(
@@ -109,38 +108,6 @@ class LoginView(APIView):
         else:
             return Response(
                     {'message': 'User not exist with this mobile number'}, status=status.HTTP_400_BAD_REQUEST)
-
-    def nearest_shop(self, latitude, longitude):
-        shops = shop_models.Shop.objects.all()
-        nearest_shop = ''
-        min_distance = float('inf')
-        for shop in shops:
-            distance = self.distance(
-                float(latitude),
-                float(shop.latitude), 
-                float(longitude),
-                float(shop.longitude)
-            )
-            if distance<min_distance:
-                min_distance = distance
-                nearest_shop = shop.id
-        shop = shop_models.Shop.objects.get(pk=nearest_shop)
-        return shop_serializer.ListShop(shop).data
-
-
-    def distance(self, lat1, lat2, lon1, lon2): 
-        lon1 = radians(lon1) 
-        lon2 = radians(lon2) 
-        lat1 = radians(lat1) 
-        lat2 = radians(lat2) 
-           
-        dlon = lon2 - lon1  
-        dlat = lat2 - lat1 
-        a = sin(dlat / 2)**2 + cos(lat1) * cos(lat2) * sin(dlon / 2)**2
-      
-        c = 2 * asin(sqrt(a))  
-        r = 6371
-        return(c * r)
 
 
 class CheckMobileNumber(APIView):
