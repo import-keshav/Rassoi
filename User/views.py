@@ -78,7 +78,7 @@ class RegisterUser(generics.CreateAPIView):
 class LoginView(APIView):
     def post(self, request):
         data = self.request.data
-        valid_keys = ['email','password','latitude', 'longitude']
+        valid_keys = ['email','password']
         for key in valid_keys:
             if not key in data:
                 return Response({
