@@ -7,6 +7,7 @@ urlpatterns = [
 	path('login', views.LoginView.as_view()),
 
 	path('check-mobile-number', views.CheckMobileNumber.as_view()),
+	path('check-email', views.CheckEmail.as_view()),
 
 	path('send-otp', views.SendOTP.as_view()),
 	path('verify-otp', views.VerifyOTP.as_view()),

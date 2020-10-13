@@ -115,20 +115,46 @@ class CheckMobileNumber(APIView):
     def post(self, request):
         if not 'mobile_number' in self.request.data:
             return Response({
-                "message": "Mobile Number Missing"
+                "message": "mobile_number Key is Missing"
             }, status=status.HTTP_400_BAD_REQUEST)
         mobile_number = self.request.data['mobile_number']
 
-        obj = models.User.objects.filter(mobile=mobile_number).first()
-        if obj:
+        user = user_models.User.objects.filter(mobile=mobile_number).first()
+        if user:
+            client = client_models.Client.objects.filter(user=user).first()
+            if client:
+                return Response({
+                    "message": 'Client already Exists',
+                    'is_valid' : True,
+                    'client': client_serializer.GetClientInfoSerializer(client).data
+                    }, status=status.HTTP_200_OK)
+        return Response({
+            "message": "Client didn't Exists",
+            'is_valid' : False
+            }, status=status.HTTP_200_OK)
+
+
+class CheckEmail(APIView):
+    def post(self, request):
+        if not 'email' in self.request.data:
             return Response({
-                "message": 'User already Exists',
-                'is_valid' : True},
-                status=status.HTTP_200_OK)
+                "message": "Email Missing"
+            }, status=status.HTTP_400_BAD_REQUEST)
+        email = self.request.data['email']
+
+        user = user_models.User.objects.filter(email=email).first()
+        if user:
+            client = client_models.Client.objects.filter(user=user).first()
+            if client:
+                return Response({
+                    "message": 'Client already Exists',
+                    'is_valid' : True,
+                    'client': client_serializer.GetClientInfoSerializer(client).data
+                    }, status=status.HTTP_200_OK)
         return Response({
             "message": "User didn't Exists",
-            'is_valid' : False},
-            status=status.HTTP_200_OK)
+            'is_valid' : False
+            }, status=status.HTTP_200_OK)
 
 
 class SendOTP(APIView):
