@@ -191,16 +191,16 @@ class VerifyOTP(APIView):
 class ChangeUserPassword(APIView):
     def post(self, request):
         data = self.request.data
-        valid_keys = ['mobile', 'old_password', 'new_password']
+        valid_keys = ['email', 'old_password', 'new_password']
         for key in valid_keys:
             if not key in data:
                 return Response({
                     "message": key + " is missing"
                 }, status=status.HTTP_400_BAD_REQUEST)
 
-        user = user_models.User.objects.filter(mobile=data['mobile']).first()
+        user = user_models.User.objects.filter(email=data['email']).first()
         if not user:
-            return Response({"message": "No User exists with this mobile number"})
+            return Response({"message": "No User exists with this email"})
         if verify_password(user.password, self.request.data['old_password']):
             user.password = self.request.data['new_password']
             user.save()
