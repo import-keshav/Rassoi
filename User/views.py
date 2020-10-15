@@ -4,6 +4,7 @@ import jwt
 import random
 
 from django.conf import settings
+from django.db.models import Q
 from twilio.rest import Client
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.response import Response
@@ -52,8 +53,10 @@ class RegisterUser(generics.CreateAPIView):
                     "message": key + " is missing"
                 }, status=status.HTTP_400_BAD_REQUEST)
 
-        new_user = (user_models.User.objects.filter(mobile=data['mobile']).first()
-            | user_models.User.objects.filter(email=data['email']).first())
+        new_user = user_models.User.objects.filter(Q(mobile=data['mobile']) | Q(email=data['email'])).first()
+
+        # new_user = (user_models.User.objects.filter(mobile=data['mobile']).first()
+        #     | user_models.User.objects.filter(email=data['email']).first())
         if not new_user:
             user = user_models.User(
                 name=data['name'],
